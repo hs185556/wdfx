@@ -24,7 +24,7 @@ const updateFocusData = (data) => {
  * @param {string} dateStr 日期字符串
  * @returns 类型，日期范围，初始数据
  */
-const judgeDate = (dateStr) => {
+export const judgeDate = (dateStr, defaultVal = 0) => {
   var regexYear = /^\d{4}$/ // 匹配年份格式（四位数字）
   var regexYearMonth = /^\d{4}-\d{2}$/ // 匹配年月格式（四位数字-两位数字）
   var isMatch1 = regexYear.test(dateStr)
@@ -43,17 +43,22 @@ const judgeDate = (dateStr) => {
         formatDate(new Date(year, 0, 1), 'YYYY-MM-DD'),
         formatDate(new Date(year, 11, 31), 'YYYY-MM-DD')
       ]
-      list = new Array(12).fill(0)
+      list = new Array(12)
+        .fill(0)
+        .map((v, index) => ({ name: `${index + 1}月`, value: defaultVal }))
       break
     case 2: // 年月
-      year = new Date().getFullYear()
-      month = new Date().getMonth()
+      year = new Date(dateStr).getFullYear()
+      month = new Date(dateStr).getMonth()
       maxDay = getMonthDays(dateStr)
       range = [
         formatDate(new Date(year, month, 1), 'YYYY-MM-DD'),
         formatDate(new Date(year, month, maxDay), 'YYYY-MM-DD')
       ]
-      list = new Array(maxDay).fill(0)
+      list = new Array(maxDay).fill(0).map((v, index) => ({
+        name: `${month + 1}月${index + 1}号`,
+        value: defaultVal
+      }))
       break
     default:
       break
@@ -78,11 +83,11 @@ const getAllFocusDataByDate = async (date) => {
     if (type === 1) {
       // 年份-做月处理
       const month = new Date(date).getMonth() // month从0开始，跟下标对应，不必加一
-      list[month] += hours
+      list[month].value += hours
     } else if (type === 2) {
       // 月份-做日处理
       const day = new Date(date).getDate() - 1 // -1对应下标
-      list[day] = hours
+      list[day].value = hours
     }
   })
   return list

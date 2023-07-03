@@ -20,7 +20,7 @@ export default {
       }
       // 数据库打开失败的回调
       request.onerror = (event) => {
-        console.log('数据库打开报错',  event.target.error)
+        console.log('数据库打开报错', event.target.error)
       }
       // 数据库有更新时候的回调
       request.onupgradeneeded = (event) => {

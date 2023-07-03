@@ -100,9 +100,16 @@ export function getAllDataByIndexQuery(db, storeName, index, query) {
  * @param {Object} query 查询条件
  * @param {string} order 排序，传prev代表降序
  */
-export function getAllDataByIndexCursor(db, storeName, index, query, order = undefined) {
+export function getAllDataByIndexCursor(
+  db,
+  storeName,
+  index,
+  query,
+  order = undefined,
+  customFilter
+) {
   return new Promise((resolve, reject) => {
-    let list = [];
+    let list = []
     var store = db.transaction(storeName, 'readwrite').objectStore(storeName)
     var indexStore = store.index(index)
     var cursorRequest = indexStore.openCursor(query, order)
@@ -115,7 +122,13 @@ export function getAllDataByIndexCursor(db, storeName, index, query, order = und
       if (cursor) {
         var data = cursor.value
         // 处理当前游标指向的数据
-        list.push(data)
+        if (typeof customFilter === 'function') {
+          if (customFilter(data)) {
+            list.push(data)
+          }
+        } else {
+          list.push(data)
+        }
         // 移动游标到下一个位置
         cursor.continue()
       } else {
