@@ -73,12 +73,13 @@ export function getDataByIndex(db, storeName, indexName, indexValue) {
  * 获取所有符合索引查询条件(IDBKeyRange)的记录
  * @param {object} db 数据库实例
  * @param {string} storeName 仓库名称
+ * @param {string} index 索引名称
  * @param {Object} query 查询条件
  */
 export function getAllDataByIndexQuery(db, storeName, index, query) {
   return new Promise((resolve, reject) => {
     var store = db.transaction(storeName, 'readwrite').objectStore(storeName)
-    var indexStore = store.index(index);
+    var indexStore = store.index(index)
     var request = indexStore.getAll(query)
     request.onerror = function () {
       console.log('事务失败')
@@ -87,6 +88,40 @@ export function getAllDataByIndexQuery(db, storeName, index, query) {
       var result = e.target.result
       console.log('索引条件查询结果：', result)
       resolve(result)
+    }
+  })
+}
+
+/**
+ * 通过索引和游标查询记录
+ * @param {object} db 数据库实例
+ * @param {string} storeName 仓库名称
+ * @param {string} index 索引名称
+ * @param {Object} query 查询条件
+ * @param {string} order 排序，传prev代表降序
+ */
+export function getAllDataByIndexCursor(db, storeName, index, query, order = undefined) {
+  return new Promise((resolve, reject) => {
+    let list = [];
+    var store = db.transaction(storeName, 'readwrite').objectStore(storeName)
+    var indexStore = store.index(index)
+    var cursorRequest = indexStore.openCursor(query, order)
+    cursorRequest.onerror = function (event) {
+      console.log('事务失败', event.target.error)
+    }
+    cursorRequest.onsuccess = function (event) {
+      var cursor = event.target.result
+      // 判断游标是否还有数据
+      if (cursor) {
+        var data = cursor.value
+        // 处理当前游标指向的数据
+        list.push(data)
+        // 移动游标到下一个位置
+        cursor.continue()
+      } else {
+        console.log('游标索引查询结果：', list)
+        resolve(list)
+      }
     }
   })
 }
