@@ -158,15 +158,17 @@ export function updateData(db, storeName, data) {
  * @param {number} id 主键值
  */
 export function deleteDataByKey(db, storeName, id) {
-  var request = db.transaction([storeName], 'readwrite').objectStore(storeName).delete(id)
+  return new Promise((resolve) => {
+    var request = db.transaction([storeName], 'readwrite').objectStore(storeName).delete(id)
 
-  request.onsuccess = function () {
-    console.log('数据删除成功')
-    resolve(true)
-  }
+    request.onsuccess = function () {
+      console.log('数据删除成功')
+      resolve(true)
+    }
 
-  request.onerror = function (event) {
-    console.log('数据删除失败', event.target.error)
-    resolve(false)
-  }
+    request.onerror = function (event) {
+      console.log('数据删除失败', event.target.error)
+      resolve(false)
+    }
+  })
 }
