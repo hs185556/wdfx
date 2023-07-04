@@ -3,7 +3,6 @@ import focusService from '../service/focusService'
 import itemService from '../service/itemService'
 import messageService from '../service/messageService'
 import diaryService from '../service/diaryService'
-import TheWelcome from '../components/TheWelcome.vue'
 
 const test = async () => {
   //   const record = await focusService.getDataByDate('2023-07-03')
@@ -72,6 +71,6 @@ test()
 
 <template>
   <main>
-    <TheWelcome />
+    HomeView
   </main>
 </template>
