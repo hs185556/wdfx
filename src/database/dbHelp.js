@@ -86,7 +86,7 @@ export function getAllDataByIndexQuery(db, storeName, index, query) {
     }
     request.onsuccess = function (e) {
       var result = e.target.result
-      console.log('索引条件查询结果：', result)
+      // console.log('索引条件查询结果：', result)
       resolve(result)
     }
   })
@@ -132,7 +132,7 @@ export function getAllDataByIndexCursor(
         // 移动游标到下一个位置
         cursor.continue()
       } else {
-        console.log('游标索引查询结果：', list)
+        // console.log('游标索引查询结果：', list)
         resolve(list)
       }
     }

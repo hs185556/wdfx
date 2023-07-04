@@ -46,25 +46,25 @@ const test = async () => {
   // console.log(records)
   // ==========================================================
   // const itemId = await itemService.addItemData({
-  //   name: '主题3',
+  //   name: '主题2',
   //   type: 1
   // })
-  // const itemId = await itemService.addItemData({ name: '分类2', parentId: 2, type: 2 })
+  // const itemId = await itemService.addItemData({ name: '分类3', parentId: 2, type: 2 })
   // const itemId = await itemService.addItemData({
   //   name: '任务1',
   //   date: '2023-07-02',
   //   expectedHours: 2,
   //   actualHours: 5,
   //   status: 2,
-  //   parentId: 5,
+  //   parentId: 3,
   //   type: 3
   // })
   // const allThemes = await itemService.getAllItemTheme();
   // console.log(allThemes);
-  // const items = await itemService.getAllItemsBytheme(3)
-  // console.log(items);
-  // const data = await itemService.getItemStatistics(3, '2023')
-  // console.log(data);
+  // const items = await itemService.getAllItemsBytheme(1, '2023-07-03')
+  // console.log(items)
+  const data = await itemService.getItemStatistics(1, '2023-07')
+  console.log(data);
 }
 
 test()

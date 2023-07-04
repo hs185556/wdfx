@@ -32,7 +32,7 @@ export default {
       index: {
         date: false
       },
-      isClear: true
+      isClear: false
     },
   }
 }

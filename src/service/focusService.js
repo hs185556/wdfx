@@ -7,7 +7,7 @@ import {
   getDataByIndex,
   getAllDataByIndexQuery
 } from '../database/dbHelp'
-import { getMonthDays, formatDate } from '@/utils'
+import { getMonthDays, formatDate, getDateRange, getDateList } from '@/utils'
 
 // 查询某天的专注时长
 const getDataByDate = (date) => {
@@ -19,59 +19,12 @@ const updateFocusData = (data) => {
   return updateData(dbInstall._db, 'focusMeta', data)
 }
 
-/**
- * 年份或年月的公共逻辑
- * @param {string} dateStr 日期字符串
- * @returns 类型，日期范围，初始数据
- */
-export const judgeDate = (dateStr, defaultVal = 0) => {
-  var regexYear = /^\d{4}$/ // 匹配年份格式（四位数字）
-  var regexYearMonth = /^\d{4}-\d{2}$/ // 匹配年月格式（四位数字-两位数字）
-  var isMatch1 = regexYear.test(dateStr)
-  var isMatch2 = regexYearMonth.test(dateStr)
-  const type = isMatch1 ? 1 : isMatch2 ? 2 : 0 // 类型： 0-非日期，1-年， 2-年月
-  let range = [] // 日期范围
-  let list = [] // 初始数据列表，年对应每个月，月对应每一天
-
-  let year
-  let month
-  let maxDay
-  switch (type) {
-    case 1: // 年份
-      year = dateStr
-      range = [
-        formatDate(new Date(year, 0, 1), 'YYYY-MM-DD'),
-        formatDate(new Date(year, 11, 31), 'YYYY-MM-DD')
-      ]
-      list = new Array(12)
-        .fill(0)
-        .map((v, index) => ({ name: `${index + 1}月`, value: defaultVal }))
-      break
-    case 2: // 年月
-      year = new Date(dateStr).getFullYear()
-      month = new Date(dateStr).getMonth()
-      maxDay = getMonthDays(dateStr)
-      range = [
-        formatDate(new Date(year, month, 1), 'YYYY-MM-DD'),
-        formatDate(new Date(year, month, maxDay), 'YYYY-MM-DD')
-      ]
-      list = new Array(maxDay).fill(0).map((v, index) => ({
-        name: `${month + 1}月${index + 1}号`,
-        value: defaultVal
-      }))
-      break
-    default:
-      break
-  }
-  return { type, range, list }
-}
-
 // 根据年份或月份查询对应的月或日列表数据
 const getAllFocusDataByDate = async (date) => {
-  const { type, range, list } = judgeDate(date)
-  if (type === 0) {
-    return
-  }
+  const { type, range } = getDateRange(date)
+  if (type === 0) return
+  const list = getDateList(type, date)
+
   const records = await getAllDataByIndexQuery(
     dbInstall._db,
     'focusMeta',
