@@ -1,36 +1,49 @@
 <template>
-  <div id="wordView"></div>
+  <div>
+    <button style="z-index: 999" @click="save">下载</button>
+    <!-- <div id="wordView"></div> -->
+    <vue-office-docx :src="src" v-if="src" style="height: 100vh" @rendered="rendered" />
+    <!-- <vue-office-docx :src="docx" style="height: 100vh" @rendered="rendered" /> -->
+  </div>
 </template>
 
 <script>
-import * as mammoth from 'mammoth'
+// import * as mammoth from 'mammoth'
 import axios from 'axios'
+//引入VueOfficeDocx组件
+import VueOfficeDocx from '@vue-office/docx'
+//引入相关样式
+import '@vue-office/docx/lib/index.css'
+import saveAs from 'file-saver'
 
 export default {
-  components: {},
+  components: {
+    VueOfficeDocx
+  },
   data() {
     return {
-      docx: 'http://127.0.0.1:5500/src/assets/upm1%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.doc' //设置文档网络地址，可以是相对地址
+      docx: 'http://static.shanhuxueyuan.com/test6.docx', //设置文档网络地址，可以是相对地址
+      src: '',
+      downloadUrl: ''
     }
   },
   methods: {
     rendered() {
       console.log('渲染完成')
+    },
+    save() {
+      saveAs(this.downloadUrl, 'test6.docx')
     }
   },
   mounted() {
     axios({
       method: 'get',
       responseType: 'arraybuffer', // 设置响应文件格式
-      url: 'http://127.0.0.1:5500/src/assets/upm1%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.doc'
+      url: this.docx
     }).then(({ data }) => {
-      mammoth
-        .convertToHtml({ arrayBuffer: new Uint8Array(data) })
-        .then(function (resultObject) {
-          this.$nextTick(() => {
-            document.querySelector('#wordView').innerHTML = resultObject.value
-          })
-        })
+      this.src = data
+      const blob = new Blob([data])
+      this.downloadUrl = window.URL.createObjectURL(blob)
     })
   }
 }
