@@ -1,0 +1,106 @@
+@import './base.css';
+
+// 通过 :root:root 可以显式地让你所写内容的优先级更高一些，从而确保主题变量的成功覆盖。
+:root:root {
+  // 新增
+  --van-font-size-xl: 18px;
+  --van-font-size-xxl: 20px;
+  // 覆盖
+  --van-tabbar-height: 54px;
+  --van-primary-color: #3e82fe;
+  --van-floating-bubble-initial-gap: 78px;
+  --van-nav-bar-icon-color: var(--van-text-color);
+  --van-nav-bar-arrow-size: var(--van-font-size-xxl);
+  --van-border-color: var(--van-gray-6);
+}
+
+// 样式手动覆盖
+
+// 自定义的全局样式
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+// 工具类
+.flexAlignCenter {
+  display: flex;
+  align-items: center;
+}
+.flexJustifyStart {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.flexJustifyEnd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.flexJustifyBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flexDirectionColumn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.flexNone {
+  flex: none;
+}
+.flex1 {
+  flex: 1;
+}
+// 纵向滚动
+.flex1Column {
+  flex: 1 0 auto;
+  height: 0;
+}
+// 横向滚动
+.flex1Row {
+  flex: 1 0 auto;
+  width: 0;
+}
+
+.marginRightHalfRem {
+  margin-right: 0.5rem;
+}
+.paddingRightHalfRem {
+  padding-right: 0.5rem;
+}
+.paddingRightRem {
+  padding-right: 1rem;
+}
+
+.shadow-box {
+  box-shadow: 0px 5px 5px 0px rgba(0, 19, 83, 0.08);
+  /* 去除上方边框 */
+  border-top: none;
+  .van-nav-bar__content {
+    box-shadow: 0px 5px 5px 0px rgba(0, 19, 83, 0.08);
+    border-top: none;
+  }
+}
+
+.ellipsis {
+  //单行
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ellipsis2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 显示几行 */
+  overflow: hidden;
+}
+
+.grid-item {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
