@@ -19,7 +19,9 @@ import {
   Form,
   Field,
   CellGroup,
-  DatePicker
+  DatePicker,
+  Stepper,
+  CountDown
 } from 'vant'
 
 // 2. 引入组件样式
@@ -60,5 +62,7 @@ app.use(Form)
 app.use(Field)
 app.use(CellGroup)
 app.use(DatePicker)
+app.use(Stepper)
+app.use(CountDown)
 
 app.mount('#app')

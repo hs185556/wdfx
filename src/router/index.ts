@@ -17,12 +17,30 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/ItemView/index.vue')
+      component: () => import('../views/ItemView/index.vue'),
+      meta: {
+        keepAlive: true // 需要缓存
+      }
     },
     {
       path: '/itemForm',
       name: 'itemForm',
       component: () => import('../views/ItemView/ItemForm.vue')
+    },
+    {
+      path: '/focus',
+      name: 'focus',
+      component: () => import('../views/FocusView/index.vue')
+    },
+    {
+      path: '/diary',
+      name: 'diary',
+      component: () => import('../views/DiaryView/index.vue')
+    },
+    {
+      path: '/diaryForm',
+      name: 'diaryForm',
+      component: () => import('../views/DiaryView/DiaryForm.vue')
     },
     {
       path: '/data',
@@ -33,7 +51,7 @@ const router = createRouter({
       path: '/mine',
       name: 'mine',
       component: MineView
-    },
+    }
   ]
 })
 

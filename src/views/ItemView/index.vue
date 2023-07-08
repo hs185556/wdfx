@@ -30,6 +30,7 @@
               <item-list-item
                 :item="item"
                 @item-click="gotoPage('itemForm', { type: 5, title: 'TODO' })"
+                style="border-bottom: 0"
               ></item-list-item>
             </long-press>
           </van-collapse-item>
@@ -48,7 +49,7 @@
 
 <script setup lang="ts">
 import { eventBus } from '@/utils'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, onActivated, onDeactivated } from 'vue'
 import ThemeNavBar from '@/components/ThemeNavBar.vue'
 import LongPress from '@/components/LongPress.vue'
 import OverlayBtnPanel from '@/components/OverlayBtnPanel.vue'
@@ -59,7 +60,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const searchKey = ref('')
-const activeNames = ref('')
+const activeNames = ref('1')
 // 日期过滤
 const pickerYear = ref(/* formatDate(new Date(), 'YYYY') */)
 const pickerMonth = ref(/* formatDate(new Date(), 'MM') */)
@@ -136,12 +137,14 @@ const gotoPage = (val, item?) => {
   }
 }
 
-onMounted(() => {
+onActivated(() => {
   // 隐藏底部标签
-  eventBus.emit('hiddenTabbar', true)
+  setTimeout(()=>{
+    eventBus.emit('hiddenTabbar', true)
+  }, 0)
 })
 
-onUnmounted(() => {
+onDeactivated (() => {
   eventBus.emit('hiddenTabbar', false)
 })
 </script>

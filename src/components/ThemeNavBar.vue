@@ -1,5 +1,11 @@
 <template>
-  <van-nav-bar left-arrow @click-left="onClickLeft" :border="false" :style="style" :class="className">
+  <van-nav-bar
+    :left-arrow="leftArrow"
+    @click-left="onClickLeft"
+    :border="false"
+    :style="style"
+    :class="className"
+  >
     <template #title>
       <van-popover
         v-model:show="showThemePopover"
@@ -32,8 +38,9 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const props = defineProps({
-  style: { type: String, default: "" },
-  className: { type: String, default: "" },
+  style: { type: String, default: '' },
+  className: { type: String, default: '' },
+  leftArrow: { type: Boolean, default: true }
   // showOverlay: { type: Boolean, default: false },
   // overlayOptions: { type: Array, default: [] }
 })

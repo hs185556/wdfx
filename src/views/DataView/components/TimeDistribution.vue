@@ -1,5 +1,23 @@
 <template>
   <div class="custom-date-picker">
+    <div class="legends">
+      <div class="legend grayBg">
+        <div class="color-block"></div>
+        <div class="text">无任务</div>
+      </div>
+      <div class="legend redBg">
+        <div class="color-block"></div>
+        <div class="text">未完成</div>
+      </div>
+      <div class="legend greenBg">
+        <div class="color-block"></div>
+        <div class="text">已完成</div>
+      </div>
+      <div class="legend blueBg">
+        <div class="color-block"></div>
+        <div class="text">延期完成</div>
+      </div>
+    </div>
     <!-- <div class="months">
       <div
         :class="{
@@ -49,6 +67,47 @@ const dayList = Array.from({ length: 31 }, (_, idx) =>
 </script>
 
 <style lang="scss" scoped>
+.legends {
+  margin-bottom: 12px;
+  display: flex;
+  .legend {
+    position: relative;
+    height: 22px; // 图例的高度
+    margin-right: 12px; // 每个图例之间的间距
+    display: flex;
+    align-items: center;
+    &:last-child {
+      margin-right: 0;
+    }
+    .color-block {
+      width: 20px; // 颜色块的宽度
+      border-radius: 3px;
+      height: 10px;
+    }
+
+    .text {
+      padding-left: 3px; // 文字和颜色块之间的间距
+      font-size: 10px;
+      white-space: nowrap;
+    }
+    &.grayBg .color-block {
+      background-color: var(--van-gray-2);
+    }
+
+    &.redBg .color-block {
+      background-color: var(--van-orange);
+    }
+
+    &.greenBg .color-block {
+      background-color: var(--van-green);
+    }
+
+    &.blueBg .color-block {
+      background-color: var(--van-primary-color);
+    }
+  }
+}
+
 .default {
   background: var(--van-gray-2);
 }

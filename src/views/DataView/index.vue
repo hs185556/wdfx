@@ -1,6 +1,6 @@
 <template>
   <div class="data-container flexDirectionColumn">
-    <theme-nav-bar style="margin-bottom: 12px" className="shadow-box">
+    <theme-nav-bar style="margin-bottom: 12px" className="shadow-box" :leftArrow="false">
       <template #right>
         <van-icon name="clock-o" size="20" @click="showDatePicker = !showDatePicker" />
       </template>
@@ -29,12 +29,12 @@
             <div class="label">未完成：</div>
             <div class="text">2</div>
           </div>
-        </div>
-        <div class="column">
           <div class="item">
             <div class="label">完成百分比：</div>
             <div class="text">70%</div>
           </div>
+        </div>
+        <div class="column">
           <div class="item">
             <div class="label">总预计时长：</div>
             <div class="text">100h</div>
@@ -43,33 +43,17 @@
             <div class="label">总实际时长：</div>
             <div class="text">200h</div>
           </div>
+          <div class="item">
+            <div class="label">总专注时长：</div>
+            <div class="text">30h</div>
+          </div>
         </div>
       </div>
       <h5 class="category-title">类目完成情况</h5>
       <div class="grid-item">
         <category-bar-chart />
       </div>
-      <h5 class="category-title">
-        时段分布
-        <div class="legends">
-          <div class="legend gray">
-            <div class="color-block"></div>
-            <div class="text">无任务</div>
-          </div>
-          <div class="legend red">
-            <div class="color-block"></div>
-            <div class="text">未完成</div>
-          </div>
-          <div class="legend green">
-            <div class="color-block"></div>
-            <div class="text">已完成</div>
-          </div>
-          <div class="legend blue">
-            <div class="color-block"></div>
-            <div class="text">延期完成</div>
-          </div>
-        </div>
-      </h5>
+      <h5 class="category-title">条目分布</h5>
       <div class="grid-item">
         <time-distribution />
       </div>
@@ -146,49 +130,6 @@ const setPickerDate = ({ year, month }) => {
           .text {
             color: var(--van-gray-7);
           }
-        }
-      }
-    }
-    .legends {
-      position: absolute;
-      left: 100%;
-      top: 0;
-      transform: translateX(-100%);
-      display: flex;
-      .legend {
-        position: relative;
-        height: 22px; // 图例的高度
-        margin-right: 12px; // 每个图例之间的间距
-        display: flex;
-        align-items: center;
-        &:last-child {
-          margin-right: 0;
-        }
-        .color-block {
-          width: 20px; // 颜色块的宽度
-          border-radius: 3px;
-          height: 10px;
-        }
-
-        .text {
-          padding-left: 3px; // 文字和颜色块之间的间距
-          font-size: 10px;
-          white-space: nowrap;
-        }
-        &.gray .color-block {
-          background-color: var(--van-gray-2);
-        }
-
-        &.red .color-block {
-          background-color: var(--van-orange);
-        }
-
-        &.green .color-block {
-          background-color: var(--van-green);
-        }
-
-        &.blue .color-block {
-          background-color: var(--van-primary-color);
         }
       }
     }

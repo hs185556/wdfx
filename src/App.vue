@@ -3,6 +3,8 @@ import { RouterLink, RouterView } from 'vue-router'
 import { eventBus } from '@/utils'
 import { ref, onMounted } from 'vue'
 import { useWindowSize } from '@vant/use'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 let tabbarHeight = 54
 const { width, height } = useWindowSize()
 const offset = ref({ x: width.value - 48 - 24, y: height.value - 48 - tabbarHeight - 24 })
@@ -15,6 +17,11 @@ const onOffsetChange = (val) => {
     val.y = height.value - tabbarHeight - 48 - 24
     offset.value = val
   }
+}
+
+// 跳转页面
+const gotoPage = (url) => {
+  router.push(url)
 }
 
 onMounted(() => {
@@ -31,7 +38,7 @@ onMounted(() => {
 
 <template>
   <div class="flexDirectionColumn my-app-container">
-    <van-floating-bubble
+    <!-- <van-floating-bubble
       v-model:offset="offset"
       axis="xy"
       icon="chat"
@@ -42,21 +49,20 @@ onMounted(() => {
       <van-badge :content="5" dot class="bubble-badge" color="#ed6a0c">
         <van-icon name="chat" style="font-size: 26px" />
       </van-badge>
-    </van-floating-bubble>
+    </van-floating-bubble> -->
     <main class="flex1 my-app-main">
-      <RouterView />
+      <router-view v-slot="{ Component }" v-show="$route.meta?.keepAlive">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+      <RouterView v-if="!$route.meta?.keepAlive" />
     </main>
     <footer>
       <van-tabbar class="my-tabbar" v-model="active" v-if="isShowTabbar">
-        <van-tabbar-item icon="apps-o">
-          <RouterLink to="/">应用</RouterLink>
-        </van-tabbar-item>
-        <van-tabbar-item icon="chart-trending-o">
-          <RouterLink to="/data">数据</RouterLink>
-        </van-tabbar-item>
-        <van-tabbar-item icon="setting-o">
-          <RouterLink to="/mine">我的</RouterLink>
-        </van-tabbar-item>
+        <van-tabbar-item icon="apps-o" @click="gotoPage('/')"> 应用 </van-tabbar-item>
+        <van-tabbar-item icon="chart-trending-o" @click="gotoPage('/data')"> 数据 </van-tabbar-item>
+        <van-tabbar-item icon="setting-o" @click="gotoPage('/mine')"> 我的 </van-tabbar-item>
       </van-tabbar>
     </footer>
   </div>

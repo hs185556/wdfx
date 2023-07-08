@@ -23,13 +23,13 @@ const router = useRouter()
 const gotoPage = (val) => {
   switch (val) {
     case 'focus':
-      showToast('暂未开放');
+      router.push('/focus')
       break
     case 'item':
       router.push('/item')
       break
     case 'diary':
-      showToast('暂未开放');
+      router.push('/diary')
       break
     default:
       break

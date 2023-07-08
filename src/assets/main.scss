@@ -23,6 +23,11 @@
 }
 
 // 工具类
+.flexCenterCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
 .flexAlignCenter {
   display: flex;
   align-items: center;

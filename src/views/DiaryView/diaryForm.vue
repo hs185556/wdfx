@@ -13,7 +13,7 @@
         <van-cell-group inset class="flex1Column" style="overflow: auto">
           <template v-for="field in formFields" :key="field.name">
             <van-field
-              :readonly="propType === 5"
+              :readonly="propType === 2"
               input-align="right"
               v-model="formData[field.vanFieldProps.name]"
               v-if="field.show ? field.show(formData.status) : true"
@@ -25,10 +25,10 @@
             </van-field>
           </template>
         </van-cell-group>
-        <div style="margin: 16px" v-if="propType !== 5">
+        <div style="margin: 16px" v-if="propType !== 2">
           <van-button block type="primary" native-type="submit"> 提交 </van-button>
         </div>
-        <div style="margin: 16px" v-if="propType === 5 && formData.id">
+        <div style="margin: 16px" v-if="propType === 2 && formData.id">
           <van-button block type="primary" native-type="submit"> 编辑 </van-button>
         </div>
       </van-form>
@@ -40,14 +40,11 @@
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { eventBus } from '@/utils'
-import { THEMEFIELDS, CATEGORYFIELDS, ITEMFIELDS, FINISHFIELDS } from './constant.js'
+import { DIARYFIELDS } from './constant.js'
 
 const typeFieldsMap = {
-  1: THEMEFIELDS,
-  2: CATEGORYFIELDS,
-  3: ITEMFIELDS,
-  4: FINISHFIELDS,
-  5: ITEMFIELDS
+  1: DIARYFIELDS,
+  2: DIARYFIELDS
 }
 
 // 接收路由参数
@@ -58,17 +55,9 @@ const propTitle = route.query.title
 const formIns = ref(null)
 const formData = reactive({
   id: '',
-  name: '',
-  startTime: '',
-  stopTime: '',
-  updateTime: '',
-  expectedHours: '',
-  actualHours: '',
-  steps: '',
-  summary: '',
-  status: 0,
-  parentId: '',
-  type: 3
+  title: '',
+  content: '',
+  date: '',
 })
 
 const formFields = ref(typeFieldsMap[propType])
