@@ -36,6 +36,7 @@ import App from './App.vue'
 import router from './router'
 
 import dbInstall from '@/database/dbInstall'
+import './utils/AndroidBack.js'
 
 // 初始化indexDB
 dbInstall.install()
