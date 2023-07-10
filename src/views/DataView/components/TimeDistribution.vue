@@ -87,7 +87,7 @@ const dayList = Array.from({ length: 31 }, (_, idx) =>
 
     .text {
       padding-left: 3px; // 文字和颜色块之间的间距
-      font-size: 10px;
+      font-size: 12px;
       white-space: nowrap;
     }
     &.grayBg .color-block {
@@ -127,7 +127,7 @@ const dayList = Array.from({ length: 31 }, (_, idx) =>
 .custom-date-picker {
   background: #fff;
   color: #ada8a8;
-  font-size: 13px;
+  font-size: 15px;
   position: relative;
   width: 100%;
   .months {

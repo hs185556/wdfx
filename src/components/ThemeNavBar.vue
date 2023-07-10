@@ -192,7 +192,7 @@ onActivated(() => {
     .option {
       padding: 5px 10px;
       width: calc(100vw - 48px);
-      font-size: 15px;
+      font-size: 17px;
     }
   }
 }

@@ -24,7 +24,7 @@
           ref="countDown"
           format="mm:ss"
           @finish="nextCountDown"
-          style="font-size: 40px; margin-bottom: 12px; padding: 12px 0"
+          style="font-size: 42px; margin-bottom: 12px; padding: 12px 0"
         />
         <van-icon
           name="play-circle-o"

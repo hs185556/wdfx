@@ -93,7 +93,7 @@ const setPickerDate = ({ year, month }) => {
       position: relative;
       margin: 12px 12px 12px 0;
       font-weight: 400;
-      font-size: 14px;
+      font-size: 16px;
       color: var(--van-gray-6);
       &::before {
         content: '';
@@ -122,7 +122,7 @@ const setPickerDate = ({ year, month }) => {
           .text {
             display: block;
             text-align: left;
-            font-size: 13px;
+            font-size: 15px;
           }
           .label {
             color: var(--van-gray-6);

@@ -84,7 +84,7 @@ const handleClickConfirm = () => {
 <style lang="scss" scoped>
 .rounded {
   border-radius: 15px;
-  padding: 5px 15px;
+  padding: 5px 10px;
 }
 
 .background {
@@ -108,7 +108,7 @@ const handleClickConfirm = () => {
   .custom-date-picker {
     background: #fff;
     color: #ada8a8;
-    font-size: 13px;
+    font-size: 15px;
     position: relative;
     top: -1px;
     height: 228px;
