@@ -26,32 +26,38 @@ const router = createRouter({
     {
       path: '/itemForm',
       name: 'itemForm',
-      component: () => import('../views/ItemView/ItemForm.vue')
+      component: () => import('../views/ItemView/ItemForm.vue'),
+      meta: {}
     },
     {
       path: '/focus',
       name: 'focus',
-      component: () => import('../views/FocusView/index.vue')
+      component: () => import('../views/FocusView/index.vue'),
+      meta: {}
     },
     {
       path: '/diary',
       name: 'diary',
-      component: () => import('../views/DiaryView/index.vue')
+      component: () => import('../views/DiaryView/index.vue'),
+      meta: {}
     },
     {
       path: '/diaryForm',
       name: 'diaryForm',
-      component: () => import('../views/DiaryView/DiaryForm.vue')
+      component: () => import('../views/DiaryView/DiaryForm.vue'),
+      meta: {}
     },
     {
       path: '/data',
       name: 'data',
-      component: DataView
+      component: DataView,
+      meta: {}
     },
     {
       path: '/mine',
       name: 'mine',
-      component: MineView
+      component: MineView,
+      meta: {}
     }
   ]
 })

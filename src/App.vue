@@ -33,6 +33,9 @@ onMounted(() => {
       onOffsetChange(offset.value)
     }
   })
+  eventBus.on('backbutton', (tabbarIndex) => {
+    active.value = tabbarIndex
+  })
 })
 </script>
 
@@ -59,7 +62,7 @@ onMounted(() => {
       <RouterView v-if="!$route.meta?.keepAlive" />
     </main>
     <footer>
-      <van-tabbar class="my-tabbar" v-model="active" v-if="isShowTabbar">
+      <van-tabbar class="my-tabbar" v-model="active" v-if="isShowTabbar" :border="false">
         <van-tabbar-item icon="apps-o" @click="gotoPage('/')"> 应用 </van-tabbar-item>
         <van-tabbar-item icon="chart-trending-o" @click="gotoPage('/data')"> 数据 </van-tabbar-item>
         <van-tabbar-item icon="setting-o" @click="gotoPage('/mine')"> 我的 </van-tabbar-item>
@@ -78,7 +81,7 @@ onMounted(() => {
 }
 // 标签栏
 .my-tabbar {
-  box-shadow: 0px -1px 10px 1px rgba(0, 19, 83, 0.15);
+  box-shadow: 0px -5px 5px 1px rgba(0, 19, 83, 0.15);
   position: initial;
   a {
     color: inherit;

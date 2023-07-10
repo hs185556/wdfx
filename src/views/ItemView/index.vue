@@ -120,7 +120,7 @@ const handleLongPressItem = (item) => {
   overlayOptions.value = [
     { text: item.status === 0 ? '设置为已完成' : '设置为未完成', value: 'itemSet' },
     { text: '修改', value: 'itemEdit' },
-    { text: '删除', value: 'itemdDel' }
+    { text: '删除', value: 'itemDel' }
   ]
   showOverlayData.value = item
   showOverlay.value = true

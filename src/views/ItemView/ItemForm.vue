@@ -222,6 +222,9 @@ input[type='datetime-local'] {
     :deep(.van-field__error-message) {
       text-align: right;
     }
+    :deep(.van-cell:last-child:after, .van-cell--borderless:after) {
+      display: block;
+    }
     .suffixUnit {
       color: #828282;
       margin-left: 0.5rem;

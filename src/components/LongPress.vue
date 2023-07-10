@@ -22,7 +22,7 @@ export default {
   methods: {
     startPressTimer(event) {
       event.stopPropagation()
-      this.pressTimer = window.setTimeout(this.pressHandler, 1000)
+      this.pressTimer = window.setTimeout(this.pressHandler, 500)
     },
     cancelPressTimer(event) {
       event.stopPropagation()

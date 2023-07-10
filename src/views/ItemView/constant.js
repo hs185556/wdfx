@@ -70,7 +70,7 @@ export const ITEMFIELDS = [
   },
   {
     suffixUnit: '时',
-    show: (v) => v != 0, //  TODO 自定义 需要实现
+    show: (v) => v != 0,
     vanFieldProps: {
       label: '实际时长',
       name: 'actualHours',
@@ -92,7 +92,7 @@ export const ITEMFIELDS = [
     }
   },
   {
-    show: (v) => v != 0, //  TODO 自定义 需要实现
+    show: (v) => v != 0,
     vanFieldProps: {
       autosize: true,
       'label-align': 'top',
@@ -123,7 +123,7 @@ export const FINISHFIELDS = [
       name: 'startTime',
       placeholder: '请选择开始时间',
       type: 'datetime-local',
-      readonly: true,
+      readonly: true
     }
   },
   {
@@ -132,7 +132,7 @@ export const FINISHFIELDS = [
       name: 'stopTime',
       placeholder: '请选择截止时间',
       type: 'datetime-local',
-      readonly: true,
+      readonly: true
     }
   },
   {

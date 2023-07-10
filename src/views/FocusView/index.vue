@@ -28,18 +28,19 @@
         />
         <van-icon
           name="play-circle-o"
-          size="20"
+          size="25"
           v-if="countDownStatus === 'pause'"
           @click="recoverCountDown"
+          style="margin-right: 12px"
         />
         <van-icon
           name="pause-circle-o"
-          size="20"
+          size="25"
           v-else
           @click="pauseCountDown"
           style="margin-right: 12px"
         />
-        <van-icon name="revoke" size="20" @click="stopCountDown" style="margin-right: 12px" />
+        <van-icon name="revoke" size="25" @click="stopCountDown" />
         <div class="tips">{{ tips2 }}</div>
       </div>
     </div>

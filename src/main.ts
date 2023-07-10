@@ -1,4 +1,5 @@
 import './assets/main.scss'
+import VConsole from 'vconsole'
 
 // 1. 引入你需要的组件
 import {
@@ -40,6 +41,10 @@ import dbInstall from '@/database/dbInstall'
 dbInstall.install()
 
 const app = createApp(App)
+
+// vconsole
+// const vConsole = new VConsole()
+// app.use(vConsole)
 
 app.use(createPinia())
 app.use(router)

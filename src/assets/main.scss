@@ -24,6 +24,10 @@
 #app {
   height: 100vh;
   overflow: hidden;
+  -webkit-user-select: none; /*webkit浏览器*/
+  -moz-user-select: none; /*火狐*/
+  -ms-user-select: none; /*IE10*/
+  user-select: none;
 }
 
 // 工具类
@@ -31,7 +35,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-} 
+}
 .flexAlignCenter {
   display: flex;
   align-items: center;

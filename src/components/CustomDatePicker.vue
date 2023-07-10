@@ -35,7 +35,7 @@
         <i></i> <i></i>
       </div>
       <div style="margin: 8px">
-        <van-button type="success" block size="small" @click="handleClickConfirm">确定</van-button>
+        <van-button type="success" block size="normal" @click="handleClickConfirm">确定</van-button>
       </div>
     </div>
   </div>
@@ -111,7 +111,7 @@ const handleClickConfirm = () => {
     font-size: 15px;
     position: relative;
     top: -1px;
-    height: 228px;
+    height: 250px;
     overflow-x: hidden;
     z-index: 2;
     width: 100vw;
