@@ -18,6 +18,7 @@
               v-model="formData[field.vanFieldProps.name]"
               v-if="field.show ? field.show(formData.status) : true"
               v-bind="field.vanFieldProps"
+              :placeholder="propType === 5 ? '' : field.vanFieldProps.placeholder"
             >
               <template #extra v-if="field.suffixUnit">
                 <span class="suffixUnit">{{ field.suffixUnit }}</span>
@@ -38,8 +39,10 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
-import { useRoute } from 'vue-router'
-import { eventBus } from '@/utils'
+import { useRoute, useRouter } from 'vue-router'
+import { formatDate, eventBus, objectToQueryString } from '@/utils'
+import { showToast } from 'vant'
+import itemService from '../../service/itemService'
 import { THEMEFIELDS, CATEGORYFIELDS, ITEMFIELDS, FINISHFIELDS } from './constant.js'
 
 const typeFieldsMap = {
@@ -52,8 +55,11 @@ const typeFieldsMap = {
 
 // 接收路由参数
 const route = useRoute()
-const propType = route.query.type && Number(route.query.type)
+const router = useRouter()
+const propType = ref(route.query.type && Number(route.query.type))
 const propTitle = route.query.title
+const propItem = route.query.item && JSON.parse(route.query.item as string)
+const propParentId = route.query.parentId && Number(route.query.parentId)
 
 const formIns = ref(null)
 const formData = reactive({
@@ -68,13 +74,123 @@ const formData = reactive({
   summary: '',
   status: 0,
   parentId: '',
-  type: 3
+  type: 3,
+  ...(propItem || {})
 })
 
-const formFields = ref(typeFieldsMap[propType])
+const formFields = ref(typeFieldsMap[propType.value])
 
 // 导航栏点击返回
-const onClickLeft = () => history.back()
+const onClickLeft = (refresh) => {
+  router.go(-1)
+}
+
+// 添加Item
+const addItem = async (val) => {
+  const res = await itemService.addItemData(val)
+  if (res) {
+    showToast('添加成功')
+    // 如果添加主题，则默认选中这个新添加的主题
+    if (propType.value == 1) localStorage.setItem('themeId', res)
+    onClickLeft(true)
+  }
+}
+
+// 编辑Item
+const editItem = async (val) => {
+  const res = await itemService.updateItemData(val)
+  if (res) {
+    showToast('编辑成功')
+    onClickLeft(true)
+  }
+}
+
+// 跳转页面
+const gotoPage = (val, params?) => {
+  switch (val) {
+    case 'itemForm':
+      router.push('/itemForm' + objectToQueryString(params))
+      break
+    default:
+      break
+  }
+}
+
+// 提交
+const onSubmit = (val) => {
+  switch (propType.value) {
+    case 1:
+      // 主题的新建和编辑 type:1 updateTime
+      if (propItem && propItem.id) {
+        editItem({ ...propItem, ...val, updateTime: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss') })
+      } else {
+        addItem({
+          ...val,
+          type: 1,
+          parentId: propParentId,
+          updateTime: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
+        })
+      }
+      break
+    case 2:
+      // 类目的新建和编辑 type:2 parentId updateTime
+      if (propItem && propItem.id) {
+        editItem({ ...propItem, ...val, updateTime: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss') })
+      } else {
+        addItem({
+          ...val,
+          type: 2,
+          parentId: propParentId,
+          updateTime: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
+        })
+      }
+      break
+    case 3:
+      // 条目的新建和编辑 type:3 parentId updateTime status:0
+      if (propItem && propItem.id) {
+        editItem({ ...propItem, ...val, updateTime: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss') })
+      } else {
+        addItem({
+          ...val,
+          type: 3,
+          parentId: propParentId,
+          updateTime: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+          status: 0
+        })
+      }
+      break
+    case 4:
+      // 设置为已完成和未完成 type:3 updateTime status: 0 || 1 || 2
+      if (propItem && propItem.id) {
+        let updateTime = formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
+        let status =
+          propItem.status === 0
+            ? propItem.stopTime &&
+              formatDate(new Date(propItem.stopTime), 'YYYY-MM-DD HH:mm:ss') < updateTime
+              ? 2
+              : 1
+            : 0
+        editItem({
+          ...propItem,
+          ...val,
+          updateTime,
+          status
+        })
+      }
+      break
+    case 5:
+      // 详情页跳转到条目编辑页
+      propType.value = 3
+      /* gotoPage('itemForm', {
+        type: 3,
+        title: propItem?.name || '-',
+        item: JSON.stringify(propItem)
+      })   */
+      break
+    default:
+      break
+  }
+}
 
 onMounted(() => {
   // 隐藏底部标签
@@ -102,6 +218,9 @@ input[type='datetime-local'] {
     overflow: auto;
     :deep(.van-cell-group--inset) {
       margin: 0;
+    }
+    :deep(.van-field__error-message) {
+      text-align: right;
     }
     .suffixUnit {
       color: #828282;

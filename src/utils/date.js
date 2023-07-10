@@ -21,20 +21,30 @@ export function getMonthDays(dateStr) {
   return firstDayOfMonth.getDate()
 }
 
-// 格式化日期
 export const formatDate = (date, str) => {
   // 创建 Date 对象
   var date = date || new Date()
-  // 获取年、月和日
+  // 获取年、月、日、小时、分钟和秒
   var year = date.getFullYear()
   var month = date.getMonth() + 1 // 月份从 0 开始，需要加 1
   var day = date.getDate()
+  var hours = date.getHours()
+  var minutes = date.getMinutes()
+  var seconds = date.getSeconds()
   // 定义格式对应数值
   var YYYY = year
   var MM = month < 10 ? '0' + month : month
   var DD = day < 10 ? '0' + day : day
-  // 格式化为 "YYYY-MM-DD"
-  var formattedDate = str.replace('YYYY', YYYY).replace('MM', MM).replace('DD', DD)
+  var HH = hours < 10 ? '0' + hours : hours
+  var mm = minutes < 10 ? '0' + minutes : minutes
+  var ss = seconds < 10 ? '0' + seconds : seconds
+  // 格式化为指定格式
+  var formattedDate = str.replace('YYYY', YYYY)
+    .replace('MM', MM)
+    .replace('DD', DD)
+    .replace('HH', HH)
+    .replace('mm', mm)
+    .replace('ss', ss)
   console.log(formattedDate) // 输出格式化后的日期
   return formattedDate
 }

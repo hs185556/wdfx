@@ -21,7 +21,8 @@ import {
   CellGroup,
   DatePicker,
   Stepper,
-  CountDown
+  CountDown,
+  Dialog
 } from 'vant'
 
 // 2. 引入组件样式
@@ -64,5 +65,6 @@ app.use(CellGroup)
 app.use(DatePicker)
 app.use(Stepper)
 app.use(CountDown)
+app.use(Dialog)
 
 app.mount('#app')

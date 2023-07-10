@@ -2,43 +2,52 @@
   <div class="wrapper" :style="style" @click="handleClick">
     <div class="row flexJustifyBetween">
       <div class="flexJustifyStart">
-        <div class="status primary marginRightHalfRem" />
-        <div class="title">这是个伟大的条目</div>
+        <div
+          :class="{
+            status: true,
+            danger: item.status === 0,
+            success: item.status === 1,
+            primary: item.status === 2,
+            marginRightHalfRem: true
+          }"
+        />
+        <div class="title">{{ item.name }}</div>
       </div>
       <div class="flexJustifyEnd">
         <div class="yjTime" style="margin-right: 8px">
-          <span class="label">预计：</span><span class="text blue bold">10h</span>
+          <span class="label">预计：</span
+          ><span class="text blue bold">{{ item.expectedHours }}h</span>
         </div>
-        <div class="sjTime">
-          <span class="label">实际：</span><span class="text blue bold">20h</span>
+        <div class="sjTime" v-if="item.status !== 0">
+          <span class="label">实际：</span
+          ><span class="text blue bold">{{ item.actualHours }}h</span>
         </div>
       </div>
     </div>
-    <div class="row flexJustifyBetween">
+    <div class="row">
       <div class="timeRange">
-        <span class="label">条目时间：</span><span class="text">2023-7-7 11:40~18:30</span>
+        <span class="label">更新时间：</span><span class="text">{{ item.updateTime }}</span>
       </div>
+    </div>
+    <div class="row">
       <div class="timeRange">
-        <span class="label">最后更新：</span><span class="text">2023-7-7 18:30</span>
+        <span class="label">条目时间：</span><span class="text">{{ getTime() }}</span>
       </div>
     </div>
     <div class="row flexJustifyStart steps">
       <span class="label flexNone">条目步骤：</span
-      ><span class="text ellipsis flex1"
-        >这是一个任务步骤，把大象放进冰箱里要几步，很简单只要三步，第一步打开冰箱门，第二步把大象塞进去，第三步关闭冰箱门，就完成了啦啦啦啦很简单对吧</span
-      >
+      ><span class="text ellipsis flex1">{{ item.steps }}</span>
     </div>
-    <div class="row flexJustifyStart summarize">
+    <div class="row flexJustifyStart summarize" v-if="item.summarize">
       <span class="label flexNone">条目总结：</span
-      ><span class="text ellipsis"
-        >我严重低估了大象的价格、重量和高估了冰箱的体积。我严重低估了大象的价格、重量和高估了冰箱的体积。我严重低估了大象的价格、重量和高估了冰箱的体积</span
-      >
+      ><span class="text ellipsis">{{ item.summarize }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { formatDate, eventBus } from '@/utils'
 
 const props = defineProps({
   item: { type: Object, default: {} },
@@ -48,6 +57,30 @@ const emit = defineEmits(['item-click'])
 
 const handleClick = () => {
   emit('item-click', props.item)
+}
+
+// 获取开始时间和截止时间
+function getTime() {
+  const item = props.item
+  const startTime = item.startTime ? formatDate(new Date(item.startTime), 'YYYY-MM-DD HH:mm') : null
+  const stopTime = item.stopTime ? formatDate(new Date(item.stopTime), 'YYYY-MM-DD HH:mm') : null
+
+  if (startTime && stopTime) {
+    const startString = startTime
+    const stopString = stopTime
+
+    if (startString.substring(0, 10) === stopString.substring(0, 10)) {
+      return `${startString} ~ ${stopString.substring(11)}`
+    } else {
+      return `${startString} - ${stopString}`
+    }
+  } else if (startTime) {
+    return `${startTime.toLocaleString()} -`
+  } else if (stopTime) {
+    return `- ${stopTime.toLocaleString()}`
+  } else {
+    return '-'
+  }
 }
 </script>
 

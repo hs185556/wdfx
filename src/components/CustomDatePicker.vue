@@ -34,6 +34,9 @@
         <i></i> <i></i> <i></i> <i></i> <i></i> <i></i> <i></i> <i></i> <i></i> <i></i> <i></i>
         <i></i> <i></i>
       </div>
+      <div style="margin: 8px">
+        <van-button type="success" block size="small" @click="handleClickConfirm">确定</van-button>
+      </div>
     </div>
   </div>
 </template>
@@ -45,10 +48,12 @@ import { formatDate } from '@/utils'
 const props = defineProps({
   top: { type: Number, default: 0 },
   showDatePicker: { type: Boolean, default: false },
-  pickerYear: { type: String, default: '' },
-  pickerMonth: { type: String, default: '' }
+  pickerDate: { type: String, default: '' }
 })
 const emit = defineEmits(['mask-click', 'option-click'])
+
+const pickerYear = ref((props.pickerDate && props.pickerDate.split('-').filter((v) => v)[0]) || '')
+const pickerMonth = ref((props.pickerDate && props.pickerDate.split('-').filter((v) => v)[1]) || '')
 
 const yearList = Array.from({ length: 5 }, (_, idx) => `${new Date().getFullYear() - 4 + idx}`)
 const monthList = Array.from({ length: 12 }, (_, idx) =>
@@ -62,10 +67,17 @@ const handleClickMask = () => {
 
 // 点击年或月
 const handleClickYear = (item) => {
-  emit('option-click', { year: item || '', month: item ? undefined : '' })
+  pickerYear.value = item || ''
+  pickerMonth.value = item ? undefined : ''
 }
 const handleClickMonth = (item) => {
-  emit('option-click', { month: item || '' })
+  pickerMonth.value = item || ''
+}
+
+// 点击确定
+const handleClickConfirm = () => {
+  emit('option-click', [pickerYear.value, pickerMonth.value].filter((v) => v).join('-'))
+  handleClickMask()
 }
 </script>
 
@@ -99,7 +111,7 @@ const handleClickMonth = (item) => {
     font-size: 13px;
     position: relative;
     top: -1px;
-    height: 180px;
+    height: 228px;
     overflow-x: hidden;
     z-index: 2;
     width: 100vw;

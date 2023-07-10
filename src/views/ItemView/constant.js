@@ -14,7 +14,8 @@ export const THEMEFIELDS = [
       label: '主题名称',
       name: 'name',
       placeholder: '请输入主题名称',
-      required: true
+      required: true,
+      rules: [{ required: true, message: '请填写主题名称' }]
     }
   }
 ]
@@ -25,7 +26,8 @@ export const CATEGORYFIELDS = [
       label: '类目名称',
       name: 'name',
       placeholder: '请输入类目名称',
-      required: true
+      required: true,
+      rules: [{ required: true, message: '请填写类目名称' }]
     }
   }
 ]
@@ -33,10 +35,11 @@ export const CATEGORYFIELDS = [
 export const ITEMFIELDS = [
   {
     vanFieldProps: {
-      label: '类目名称',
+      label: '条目名称',
       name: 'name',
-      placeholder: '请输入类目名称',
-      required: true
+      placeholder: '请输入条目名称',
+      required: true,
+      rules: [{ required: true, message: '请填写条目名称' }]
     }
   },
   {
@@ -44,7 +47,6 @@ export const ITEMFIELDS = [
       label: '开始时间',
       name: 'startTime',
       placeholder: '请选择开始时间',
-      required: true,
       type: 'datetime-local'
     }
   },
@@ -61,7 +63,9 @@ export const ITEMFIELDS = [
     vanFieldProps: {
       label: '预计时长',
       name: 'expectedHours',
-      type: 'number'
+      type: 'number',
+      required: true,
+      rules: [{ required: true, message: '请填写预计时长' }]
     }
   },
   {
@@ -108,10 +112,27 @@ export const FINISHFIELDS = [
   {
     vanFieldProps: {
       readonly: true,
-      label: '类目名称',
+      label: '条目名称',
       name: 'name',
-      placeholder: '请输入类目名称',
-      required: true
+      placeholder: '请输入类目名称'
+    }
+  },
+  {
+    vanFieldProps: {
+      label: '开始时间',
+      name: 'startTime',
+      placeholder: '请选择开始时间',
+      type: 'datetime-local',
+      readonly: true,
+    }
+  },
+  {
+    vanFieldProps: {
+      label: '截止时间',
+      name: 'stopTime',
+      placeholder: '请选择截止时间',
+      type: 'datetime-local',
+      readonly: true,
     }
   },
   {
@@ -120,7 +141,9 @@ export const FINISHFIELDS = [
       readonly: true,
       label: '预计时长',
       name: 'expectedHours',
-      type: 'number'
+      type: 'number',
+      required: true,
+      rules: [{ required: true, message: '请填写预计时长' }]
     }
   },
   {
@@ -129,7 +152,8 @@ export const FINISHFIELDS = [
       label: '实际时长',
       name: 'actualHours',
       type: 'number',
-      required: true
+      required: true,
+      rules: [{ required: true, message: '请填写实际时长' }]
     }
   },
   {

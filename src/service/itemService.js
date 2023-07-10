@@ -25,16 +25,84 @@ const deleteItemDataByKey = (key) => {
   return deleteDataByKey(dbInstall._db, 'itemMeta', key)
 }
 
+// 查询单个条目
+const getItemDataByKey = (key) => {
+  return getDataByKey(dbInstall._db, 'itemMeta', key)
+}
+
+// 根据id删除item及关联数据
+const deleteItemAndRelatedDataByKey = async (key) => {
+  // 获取item
+  const item = await getItemDataByKey(key)
+  if (!item) {
+    console.log('NOTFOUND')
+    return false
+  }
+  let categorys = []
+  let items = []
+  // 如果是主题 就获取类目 然后用customFilter
+  if (item.type === 1) {
+    categorys = await getAllDataByIndexQuery(
+      dbInstall._db,
+      'itemMeta',
+      'parentId',
+      window.IDBKeyRange.only(item.id)
+    )
+    const customFilter = function (v) {
+      const isSon = categorys.find((x) => x.id === v.parentId)
+      return isSon
+    }
+    items = await getAllDataByIndexCursor(
+      dbInstall._db,
+      'itemMeta',
+      'type',
+      window.IDBKeyRange.only(3),
+      'prev',
+      customFilter
+    )
+  } else if (item.type === 2) {
+    // 如果是类目就customFilter
+    const customFilter = function (v) {
+      const isSon = item.id === v.parentId
+      return isSon
+    }
+    items = await getAllDataByIndexCursor(
+      dbInstall._db,
+      'itemMeta',
+      'type',
+      window.IDBKeyRange.only(3),
+      'prev',
+      customFilter
+    )
+  }
+  const ids = [item]
+    .concat(categorys)
+    .concat(items)
+    .map((v) => v.id)
+  // 删除所有id
+  return deleteDataByKey(dbInstall._db, 'itemMeta', ids)
+}
+
 // 查询所有主题
 const getAllItemTheme = () => {
   return getAllDataByIndexQuery(dbInstall._db, 'itemMeta', 'type', window.IDBKeyRange.only(1))
 }
 
+// sort function 根据updateTime降序排列
+function compare(a, b) {
+  if (a.updateTime > b.updateTime) {
+    return -1
+  }
+  if (a.updateTime < b.updateTime) {
+    return 1
+  }
+  return 0
+}
+
 // 根据主题查询所有数据
 const getAllItemsBytheme = async (id, date) => {
   const { type, range: dateRange } = getDateRange(date)
-  if (type === 0) return
-
+  // if (type === 0) return
   let categorys = await getAllDataByIndexQuery(
     dbInstall._db,
     'itemMeta',
@@ -45,7 +113,7 @@ const getAllItemsBytheme = async (id, date) => {
     const isSon = categorys.find((x) => x.id === v.parentId)
     const isInTime =
       Array.isArray(dateRange) && dateRange.length === 2
-        ? v.date >= dateRange[0] && v.date <= dateRange[1]
+        ? v.updateTime >= dateRange[0] && v.updateTime <= dateRange[1]
         : true
     return isSon && isInTime
   }
@@ -57,7 +125,7 @@ const getAllItemsBytheme = async (id, date) => {
     'prev',
     customFilter
   )
-  return categorys.concat(items)
+  return categorys.sort(compare).concat(items.sort(compare))
 }
 
 // 根据主题和时间查询统计数据
@@ -65,7 +133,7 @@ const getItemStatistics = async (id, date) => {
   const { type } = getDateRange(date)
   if (type === 0) return
   const list = getDateList(type, date)
-  
+
   const records = await getAllItemsBytheme(id, date)
 
   // 总览数据
@@ -122,6 +190,7 @@ export default {
   addItemData,
   updateItemData,
   deleteItemDataByKey,
+  deleteItemAndRelatedDataByKey,
   getAllItemTheme,
   getAllItemsBytheme,
   getItemStatistics

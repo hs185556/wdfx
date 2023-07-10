@@ -1,5 +1,6 @@
 export * from './date';
 export * from './eventBus';
+export * from './url';
 
 // 过滤indexDB的data里的空属性
 export const filterData = (data) => {

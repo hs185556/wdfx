@@ -168,20 +168,48 @@ export function updateData(db, storeName, data) {
  * 通过主键删除数据
  * @param {object} db 数据库实例
  * @param {string} storeName 仓库名称
- * @param {number} id 主键值
+ * @param {number|number[]} id 主键值或主键值列表
  */
-export function deleteDataByKey(db, storeName, id) {
+ export function deleteDataByKey(db, storeName, id) {
   return new Promise((resolve) => {
-    var request = db.transaction([storeName], 'readwrite').objectStore(storeName).delete(id)
+    const transaction = db.transaction([storeName], 'readwrite');
+    const objectStore = transaction.objectStore(storeName);
 
-    request.onsuccess = function () {
-      console.log('数据删除成功')
-      resolve(true)
-    }
+    // 如果 id 是数组，则遍历数组并删除每个 ID 对应的记录
+    if (Array.isArray(id)) {
+      const promises = id.map((key) => {
+        return new Promise((resolve) => {
+          const request = objectStore.delete(key);
+          request.onsuccess = () => {
+            console.log(`已删除 id 为 ${key} 的记录`);
+            resolve(true);
+          };
+          request.onerror = (event) => {
+            console.log(`删除 id 为 ${key} 的记录失败`, event.target.error);
+            resolve(false);
+          };
+        });
+      });
 
-    request.onerror = function (event) {
-      console.log('数据删除失败', event.target.error)
-      resolve(false)
+      Promise.all(promises).then((results) => {
+        if (results.every((result) => result)) {
+          console.log(`已删除 ${id.length} 条记录`);
+          resolve(true);
+        } else {
+          console.log('删除记录失败');
+          resolve(true);
+        }
+      });
+    } else { // 如果 id 是单个值，则直接删除对应的记录
+      const request = objectStore.delete(id);
+      request.onsuccess = () => {
+        console.log(`已删除 id 为 ${id} 的记录`);
+        resolve(true);
+      };
+      request.onerror = (event) => {
+        console.log(`删除 id 为 ${id} 的记录失败`, event.target.error);
+        resolve(false);
+      };
     }
-  })
+  });
 }
