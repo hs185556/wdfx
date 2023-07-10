@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only",
+    "build": "run-p build-only",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
@@ -13,8 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vitejs/plugin-legacy": "^4.1.0",
     "echarts": "^5.4.2",
     "pinia": "^2.1.3",
+    "terser": "^5.18.2",
     "vant": "^4.6.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2"

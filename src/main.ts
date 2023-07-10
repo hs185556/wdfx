@@ -37,7 +37,7 @@ import router from './router'
 import dbInstall from '@/database/dbInstall'
 
 // 初始化indexDB
-await dbInstall.install()
+dbInstall.install()
 
 const app = createApp(App)
 
