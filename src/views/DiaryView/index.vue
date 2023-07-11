@@ -68,14 +68,14 @@ const pickerMonth = ref(/* formatDate(new Date(), 'MM') */)
 const showDatePicker = ref(false)
 
 const diaryList = ref([
-  {
-    id: 1,
-    title: '开心',
-    content:
-      '吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿',
-    date: '2023-07-07'
-  },
-  { id: 2, title: '不开心', content: '吃饭没味儿', date: '2023-07-08' }
+  // {
+  //   id: 1,
+  //   title: '开心',
+  //   content:
+  //     '吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿',
+  //   date: '2023-07-07'
+  // },
+  // { id: 2, title: '不开心', content: '吃饭没味儿', date: '2023-07-08' }
 ])
 
 // 列表项操作
