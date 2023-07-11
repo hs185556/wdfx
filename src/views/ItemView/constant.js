@@ -70,7 +70,7 @@ export const ITEMFIELDS = [
   },
   {
     suffixUnit: '时',
-    show: (v) => v != 0,
+    show: (v) => v != undefined,
     vanFieldProps: {
       label: '实际时长',
       name: 'actualHours',
@@ -92,7 +92,7 @@ export const ITEMFIELDS = [
     }
   },
   {
-    show: (v) => v != 0,
+    show: (v) => v !== undefined,
     vanFieldProps: {
       autosize: true,
       'label-align': 'top',
@@ -111,7 +111,7 @@ export const ITEMFIELDS = [
 export const FINISHFIELDS = [
   {
     vanFieldProps: {
-      readonly: true,
+      disabled: true,
       label: '条目名称',
       name: 'name',
       placeholder: '请输入类目名称'
@@ -123,7 +123,7 @@ export const FINISHFIELDS = [
       name: 'startTime',
       placeholder: '请选择开始时间',
       type: 'datetime-local',
-      readonly: true
+      disabled: true,
     }
   },
   {
@@ -132,13 +132,12 @@ export const FINISHFIELDS = [
       name: 'stopTime',
       placeholder: '请选择截止时间',
       type: 'datetime-local',
-      readonly: true
     }
   },
   {
     suffixUnit: '时',
     vanFieldProps: {
-      readonly: true,
+      disabled: true,
       label: '预计时长',
       name: 'expectedHours',
       type: 'number',
@@ -154,6 +153,21 @@ export const FINISHFIELDS = [
       type: 'number',
       required: true,
       rules: [{ required: true, message: '请填写实际时长' }]
+    }
+  },
+  {
+    vanFieldProps: {
+      autosize: true,
+      'label-align': 'top',
+      'input-align': 'left',
+      label: '步骤',
+      name: 'steps',
+      placeholder: '请输入条目步骤',
+      type: 'textarea',
+      rows: 5,
+      maxlength: '500',
+      'show-word-limit': true,
+      disabled: true
     }
   },
   {

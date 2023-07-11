@@ -18,7 +18,7 @@
         @select="handleSelectAction"
       >
         <template #reference>
-          <van-icon name="arrow-down" size="16" class="paddingLeftHalfRem" />
+          <van-icon name="arrow-down" size="18" class="paddingLeftHalfRem" />
         </template>
       </van-popover>
     </template>

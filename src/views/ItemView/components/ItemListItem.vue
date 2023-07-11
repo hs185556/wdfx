@@ -86,7 +86,7 @@ function getTime() {
 
 <style scoped lang="scss">
 .wrapper {
-  border-bottom: 1px solid #c0c4cc;
+  border-bottom: 1px solid var(--van-cell-border-color);
   margin: 5px 0;
   .row {
     margin-bottom: 8px;

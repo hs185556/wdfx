@@ -15,7 +15,7 @@
   --van-floating-bubble-initial-gap: 78px;
   --van-nav-bar-icon-color: var(--van-text-color);
   --van-nav-bar-arrow-size: var(--van-font-size-xxl);
-  --van-border-color: var(--van-gray-6);
+  --van-border-color: var(--van-gray-5);
 }
 
 // 样式手动覆盖
@@ -24,10 +24,20 @@
 #app {
   height: 100vh;
   overflow: hidden;
+  // 禁止选中和放大缩小
   -webkit-user-select: none; /*webkit浏览器*/
   -moz-user-select: none; /*火狐*/
   -ms-user-select: none; /*IE10*/
   user-select: none;
+  touch-action: pan-x pan-y;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+
+  .van-cell:after {
+    transform: initial; /* 原：scaleY(0.5) qnmd 高度减一半 导致颜色变化 */
+  }
 }
 
 // 工具类

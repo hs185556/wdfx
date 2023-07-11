@@ -29,9 +29,9 @@
         <div style="margin: 16px" v-if="propType !== 5">
           <van-button block type="primary" native-type="submit"> 提交 </van-button>
         </div>
-        <div style="margin: 16px" v-if="propType === 5 && formData.id">
+        <!-- <div style="margin: 16px" v-if="propType === 5 && formData.id">
           <van-button block type="primary" native-type="submit"> 编辑 </van-button>
-        </div>
+        </div> -->
       </van-form>
     </div>
   </div>
@@ -72,7 +72,7 @@ const formData = reactive({
   actualHours: '',
   steps: '',
   summary: '',
-  status: 0,
+  status: undefined,
   parentId: '',
   type: 3,
   ...(propItem || {})
