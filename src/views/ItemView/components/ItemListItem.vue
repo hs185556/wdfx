@@ -38,9 +38,9 @@
       <span class="label flexNone">条目步骤：</span
       ><span class="text ellipsis flex1">{{ item.steps }}</span>
     </div>
-    <div class="row flexJustifyStart summarize" v-if="item.summarize">
+    <div class="row flexJustifyStart summarize" v-if="item.summary">
       <span class="label flexNone">条目总结：</span
-      ><span class="text ellipsis">{{ item.summarize }}</span>
+      ><span class="text ellipsis">{{ item.summary }}</span>
     </div>
   </div>
 </template>
