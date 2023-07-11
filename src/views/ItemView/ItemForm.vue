@@ -29,9 +29,38 @@
         <div style="margin: 16px" v-if="propType !== 5">
           <van-button block type="primary" native-type="submit"> 提交 </van-button>
         </div>
-        <!-- <div style="margin: 16px" v-if="propType === 5 && formData.id">
-          <van-button block type="primary" native-type="submit"> 编辑 </van-button>
-        </div> -->
+        <div class="btns" v-if="propType === 5 && formData.id">
+          <van-button
+            block
+            type="primary"
+            native-type="submit"
+            @click="handleClickOption({ value: 'itemSet' })"
+          >
+            {{ formData.status === 0 ? '设置为已完成' : '设置为未完成' }}
+          </van-button>
+          <div class="bottom-btns">
+            <div>
+              <van-button
+                block
+                type="default"
+                native-type="submit"
+                @click="handleClickOption({ value: 'itemEdit' })"
+              >
+                修改
+              </van-button>
+            </div>
+            <div>
+              <van-button
+                block
+                type="danger"
+                native-type="submit"
+                @click="handleClickOption({ value: 'itemDel' })"
+              >
+                删除
+              </van-button>
+            </div>
+          </div>
+        </div>
       </van-form>
     </div>
   </div>
@@ -41,7 +70,7 @@
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { formatDate, eventBus, objectToQueryString } from '@/utils'
-import { showToast } from 'vant'
+import { showConfirmDialog, showToast } from 'vant'
 import itemService from '../../service/itemService'
 import { THEMEFIELDS, CATEGORYFIELDS, ITEMFIELDS, FINISHFIELDS } from './constant.js'
 
@@ -81,7 +110,7 @@ const formData = reactive({
 const formFields = ref(typeFieldsMap[propType.value])
 
 // 导航栏点击返回
-const onClickLeft = (refresh) => {
+const onClickLeft = () => {
   router.go(-1)
 }
 
@@ -92,7 +121,7 @@ const addItem = async (val) => {
     showToast('添加成功')
     // 如果添加主题，则默认选中这个新添加的主题
     if (propType.value == 1) localStorage.setItem('themeId', res)
-    onClickLeft(true)
+    onClickLeft()
   }
 }
 
@@ -101,7 +130,7 @@ const editItem = async (val) => {
   const res = await itemService.updateItemData(val)
   if (res) {
     showToast('编辑成功')
-    onClickLeft(true)
+    onClickLeft()
   }
 }
 
@@ -109,7 +138,52 @@ const editItem = async (val) => {
 const gotoPage = (val, params?) => {
   switch (val) {
     case 'itemForm':
-      router.push('/itemForm' + objectToQueryString(params))
+      router.replace('/itemForm' + objectToQueryString(params))
+      eventBus.emit("refreshPage")
+      break
+    default:
+      break
+  }
+}
+
+// 删除item以及item下的数据
+const deleteItem = async () => {
+  const res = await itemService.deleteItemAndRelatedDataByKey(propItem.id)
+  if (res) {
+    showToast('删除成功')
+    onClickLeft()
+  }
+}
+
+// 点击遮罩按钮面板选项
+const handleClickOption = (action) => {
+  console.log(action.text)
+  switch (action.value) {
+    case 'itemSet':
+      gotoPage('itemForm', {
+        type: 4,
+        title: propItem?.name || '-',
+        item: JSON.stringify(propItem)
+      })
+      break
+    case 'itemEdit':
+      gotoPage('itemForm', {
+        type: 3,
+        title: propItem?.name || '-',
+        item: JSON.stringify(propItem)
+      })
+      break
+    case 'itemDel':
+      showConfirmDialog({
+        title: `确认删除${propItem.name}及其关联数据吗？`,
+        confirmButtonColor: '#ee0a24'
+      })
+        .then(() => {
+          deleteItem()
+        })
+        .catch(() => {
+          // on cancel
+        })
       break
     default:
       break
@@ -178,15 +252,6 @@ const onSubmit = (val) => {
         })
       }
       break
-    case 5:
-      // 详情页跳转到条目编辑页
-      propType.value = 3
-      /* gotoPage('itemForm', {
-        type: 3,
-        title: propItem?.name || '-',
-        item: JSON.stringify(propItem)
-      })   */
-      break
     default:
       break
   }
@@ -228,6 +293,20 @@ input[type='datetime-local'] {
     .suffixUnit {
       color: #828282;
       margin-left: 0.5rem;
+    }
+    .btns {
+      margin: 16px;
+      .bottom-btns {
+        margin-top: 12px;
+        display: flex;
+        & > div {
+          width: calc(50% - 4px);
+          margin-right: 8px;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
     }
   }
 }

@@ -9,6 +9,7 @@ let tabbarHeight = 54
 const { width, height } = useWindowSize()
 const offset = ref({ x: width.value - 48 - 24, y: height.value - 48 - tabbarHeight - 24 })
 const active = ref(0)
+const refresh = ref(false)
 const isShowTabbar = ref(true)
 
 // 浮动气泡拖动范围限定
@@ -38,6 +39,13 @@ onMounted(() => {
   eventBus.on('backbutton', (tabbarIndex) => {
     active.value = tabbarIndex
   })
+  // 强制刷新页面
+  eventBus.on('refreshPage', () => {
+    refresh.value = true
+    setTimeout(() => {
+      refresh.value = false
+    }, 0)
+  })
 })
 </script>
 
@@ -56,12 +64,12 @@ onMounted(() => {
       </van-badge>
     </van-floating-bubble> -->
     <main class="flex1 my-app-main">
-      <router-view v-slot="{ Component }" v-show="$route.meta?.keepAlive">
+      <router-view v-slot="{ Component }" v-show="$route.meta?.keepAlive && !refresh">
         <keep-alive>
           <component :is="Component" />
         </keep-alive>
       </router-view>
-      <RouterView v-if="!$route.meta?.keepAlive" />
+      <RouterView v-if="!$route.meta?.keepAlive && !refresh" />
     </main>
     <footer>
       <van-tabbar class="my-tabbar" v-model="active" v-if="isShowTabbar" :border="false">

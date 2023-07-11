@@ -128,7 +128,7 @@ const handleLongPressItem = (item) => {
 
 // 设置日期
 const setPickerDate = (val) => {
-  pickerDate.value = val;
+  pickerDate.value = val
   getAllThemeItems(val)
 }
 
