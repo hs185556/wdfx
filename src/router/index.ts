@@ -10,7 +10,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { tabIndex: 0 }
     },
     {
       path: '/item',
@@ -20,44 +21,45 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/ItemView/index.vue'),
       meta: {
-        keepAlive: true // 需要缓存
+        keepAlive: true, // 需要缓存
+        tabIndex: 0
       }
     },
     {
       path: '/itemForm',
       name: 'itemForm',
       component: () => import('../views/ItemView/ItemForm.vue'),
-      meta: {}
+      meta: { tabIndex: 0 }
     },
     {
       path: '/focus',
       name: 'focus',
       component: () => import('../views/FocusView/index.vue'),
-      meta: {}
+      meta: { tabIndex: 0 }
     },
     {
       path: '/diary',
       name: 'diary',
       component: () => import('../views/DiaryView/index.vue'),
-      meta: {}
+      meta: { tabIndex: 0 }
     },
     {
       path: '/diaryForm',
       name: 'diaryForm',
       component: () => import('../views/DiaryView/DiaryForm.vue'),
-      meta: {}
+      meta: { tabIndex: 0 }
     },
     {
       path: '/data',
       name: 'data',
       component: DataView,
-      meta: {}
+      meta: { tabIndex: 1 }
     },
     {
       path: '/mine',
       name: 'mine',
       component: MineView,
-      meta: {}
+      meta: { tabIndex: 2 }
     }
   ]
 })

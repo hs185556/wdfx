@@ -21,7 +21,9 @@ const onOffsetChange = (val) => {
 
 // 跳转页面
 const gotoPage = (url) => {
-  router.push(url)
+  // 在路由跳转时使用 router.go 方法将路由历史记录退回到目标路由，然后再使用 router.replace 方法替换当前路由为目标路由
+  router.go(-router.currentRoute.value.matched.length)
+  router.replace(url)
 }
 
 onMounted(() => {
