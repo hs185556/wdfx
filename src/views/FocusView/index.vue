@@ -11,10 +11,16 @@
     <div class="content flex1Column flexCenterCenter">
       <div v-if="step === 1">
         <div class="flexCenterCenter">
-          <van-stepper v-model="stepperValue" step="10" min="30" max="120" />
-          &nbsp; 分钟 &nbsp;
-          <van-icon name="play-circle-o" size="20" @click="startCountDown" />
+          <van-stepper
+            v-model="stepperValue"
+            step="10"
+            min="30"
+            max="120"
+            style="padding: 12px 0"
+          />
+          &nbsp; 分钟
         </div>
+        <van-icon name="play-circle-o" size="25" @click="startCountDown" />
         <div class="tips">{{ tips1 }}</div>
       </div>
       <div v-else>
