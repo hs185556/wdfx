@@ -108,7 +108,7 @@ const handleClickConfirm = () => {
   .custom-date-picker {
     background: #fff;
     color: #ada8a8;
-    font-size: 15px;
+    font-size: 17px;
     position: relative;
     top: -1px;
     height: 250px;

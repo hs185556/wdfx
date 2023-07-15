@@ -161,18 +161,18 @@ onUnmounted(() => {
           margin-bottom: 5px;
 
           .title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
           }
 
           .time {
-            font-size: 16px;
+            font-size: 18px;
             color: #666;
           }
         }
 
         .description {
-          font-size: 16px;
+          font-size: 18px;
           line-height: 1.5;
         }
       }

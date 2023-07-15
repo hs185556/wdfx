@@ -26,7 +26,7 @@
             <template #title>
               <div class="flexAlignCenter">
                 <span class="paddingRightRem">{{ item.name }}（{{ item.children.length }}）</span>
-                <span style="font-size: 14px">{{ getCompletionRate(item.children) }}</span>
+                <span style="font-size: 16px">{{ getCompletionRate(item.children) }}</span>
               </div>
             </template>
             <long-press

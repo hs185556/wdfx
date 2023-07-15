@@ -50,7 +50,7 @@ const handleClick = (item) => {
     .option {
       padding: 5px 10px;
       width: calc(100vw - 48px);
-      font-size: 17px;
+      font-size: 19px;
     }
   }
 }

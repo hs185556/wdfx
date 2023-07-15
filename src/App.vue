@@ -60,7 +60,7 @@ onMounted(() => {
       @offset-change="onOffsetChange"
     >
       <van-badge :content="5" dot class="bubble-badge" color="#ed6a0c">
-        <van-icon name="chat" style="font-size: 26px" />
+        <van-icon name="chat" style="font-size: 28px" />
       </van-badge>
     </van-floating-bubble> -->
     <main class="flex1 my-app-main">

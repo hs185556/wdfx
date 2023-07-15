@@ -54,11 +54,11 @@ const gotoPage = (val) => {
 }
 
 .grid-item i {
-  font-size: 26px;
+  font-size: 28px;
   margin-bottom: 10px;
 }
 
 .grid-item span {
-  font-size: 16px;
+  font-size: 18px;
 }
 </style>

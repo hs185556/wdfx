@@ -3,13 +3,13 @@
 // 通过 :root:root 可以显式地让你所写内容的优先级更高一些，从而确保主题变量的成功覆盖。
 :root:root {
   // 新增
-  --van-font-size-xl: 20px;
-  --van-font-size-xxl: 22px;
+  --van-font-size-xl: 22px;
+  --van-font-size-xxl: 24px;
   // 覆盖
-  --van-font-size-xs: 12px;
-  --van-font-size-sm: 14px;
-  --van-font-size-md: 16px;
-  --van-font-size-lg: 18px;
+  --van-font-size-xs: 14px;
+  --van-font-size-sm: 16px;
+  --van-font-size-md: 18px;
+  --van-font-size-lg: 20px;
   --van-tabbar-height: 54px;
   --van-primary-color: #3e82fe;
   --van-floating-bubble-initial-gap: 78px;
