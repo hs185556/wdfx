@@ -35,7 +35,7 @@ const router = createRouter({
       path: '/focus',
       name: 'focus',
       component: () => import('../views/FocusView/index.vue'),
-      meta: { tabIndex: 0 }
+      meta: { tabIndex: 0, keepAlive: true }
     },
     {
       path: '/diary',
