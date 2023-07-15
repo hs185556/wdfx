@@ -11,15 +11,15 @@
             marginRightHalfRem: true
           }"
         />
-        <div class="title ellipsis">{{ item.name }}</div>
+        <div class="title ellipsis2">{{ item.name }}</div>
       </div>
-      <div class="flexJustifyEnd" style="flex: 0 0 200px">
+      <div class="flexJustifyEnd" style="flex: 0 0 160px">
         <div class="yjTime" style="margin-right: 8px">
-          <span class="label">预计：</span
+          <span class="label">预计:</span
           ><span class="text blue bold">{{ item.expectedHours }}h</span>
         </div>
         <div class="sjTime" v-if="item.status !== 0">
-          <span class="label">实际：</span
+          <span class="label">实际:</span
           ><span class="text blue bold">{{ item.actualHours }}h</span>
         </div>
       </div>
