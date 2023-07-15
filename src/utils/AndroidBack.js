@@ -22,7 +22,10 @@ document.addEventListener('plusready', () => {
         // }, 0)
       } else {
         // 按一次提示再按一次退出应用 两秒内按两次退出应用
-        if (flag === 1) window.plus.runtime.quit()
+        if (flag === 1) {
+          window.plus.runtime.quit()
+          return
+        }
         flag = 1
         plus.nativeUI.toast('再按一次退出应用')
         setTimeout(() => {

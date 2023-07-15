@@ -2,9 +2,10 @@
   <div
     class="long-press"
     @mousedown.stop="startPressTimer($event)"
-    @touchstart.stop="startPressTimer($event)"
     @mouseup.stop="cancelPressTimer($event)"
     @mouseleave.stop="cancelPressTimer($event)"
+    @touchstart.stop="startPressTimer($event)"
+    @touchmove.stop="cancelPressTimer($event)"
     @touchend.stop="cancelPressTimer($event)"
   >
     <slot></slot>
@@ -58,7 +59,7 @@ export default {
     transform: translate(-50%, 0);
     height: 100%;
     width: 0;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.07);
     transition: width 0.7s ease;
     z-index: 999;
     opacity: 0;

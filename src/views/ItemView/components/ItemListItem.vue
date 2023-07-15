@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" :style="style" @click="handleClick">
     <div class="row flexJustifyBetween">
-      <div class="flexJustifyStart">
+      <div class="flexJustifyStart" style="flex: 1; overflow: hidden">
         <div
           :class="{
             status: true,
@@ -11,9 +11,9 @@
             marginRightHalfRem: true
           }"
         />
-        <div class="title">{{ item.name }}</div>
+        <div class="title ellipsis">{{ item.name }}</div>
       </div>
-      <div class="flexJustifyEnd">
+      <div class="flexJustifyEnd" style="flex: 0 0 200px">
         <div class="yjTime" style="margin-right: 8px">
           <span class="label">预计：</span
           ><span class="text blue bold">{{ item.expectedHours }}h</span>
@@ -87,9 +87,10 @@ function getTime() {
 <style scoped lang="scss">
 .wrapper {
   border-bottom: 1px solid var(--van-cell-border-color);
-  margin: 5px 0;
+  padding: 5px 0;
   .row {
     margin-bottom: 8px;
+    display: flex;
     // 基础组装型样式
     .label {
       font-size: var(--van-font-size-sm);
@@ -114,6 +115,7 @@ function getTime() {
       width: 8px;
       height: 8px;
       background: var(--van-gray-6);
+      flex: 0 0 auto;
       &.danger {
         background: var(--van-gradient-red);
       }
