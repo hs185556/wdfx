@@ -11,16 +11,14 @@
     <div class="content flex1Column flexCenterCenter">
       <div v-if="step === 1">
         <div class="flexCenterCenter">
-          <van-stepper
-            v-model="stepperValue"
-            step="10"
-            min="30"
-            max="120"
-            style="padding: 12px 0"
-          />
-          &nbsp; 分钟
+          <van-stepper v-model="stepperValue" step="10" min="30" max="120" />
+          <span>&nbsp; 专注分钟</span>
         </div>
-        <van-icon name="play-circle-o" size="25" @click="startCountDown" />
+        <div class="flexCenterCenter" style="margin-top: 12px">
+          <van-stepper v-model="restValue" step="1" min="3" max="10" />
+          <span>&nbsp; 休息分钟</span>
+        </div>
+        <van-icon name="play-circle-o" size="25" @click="startCountDown" style="margin-top: 12px" />
         <div class="tips">{{ tips1 }}</div>
       </div>
       <div v-else>
@@ -30,7 +28,7 @@
           ref="countDown"
           format="mm:ss"
           @finish="nextCountDown"
-          style="font-size: 44px; margin-bottom: 12px; padding: 12px 0"
+          style="font-size: 44px; margin-bottom: 12px; margin-bottom: 12px"
         />
         <van-icon
           name="play-circle-o"
@@ -50,24 +48,30 @@
         <div class="tips">{{ tips2 }}</div>
       </div>
     </div>
+    <audio ref="audioRef" :src="PotionOgg"></audio>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import PotionOgg from '@/assets/ogg/Potion.ogg'
 import { showToast } from 'vant'
 import { eventBus } from '@/utils'
 
 const step = ref(1)
 const stepperValue = ref(60)
+const restValue = ref(5)
 
+const audioRef = ref(null)
 const countDown = ref(null)
 const countDownStatus = ref('stop')
 const timeArr = computed(() => {
   const value = stepperValue.value
   const restTimes = Math.ceil(value / 30)
-  const workTime = Math.floor((value - 5 * restTimes) / (restTimes || 1))
-  return Array.from({ length: restTimes * 2 }, (_, idx) => (idx % 2 === 0 ? workTime : 5))
+  const workTime = Math.floor((value - restValue.value * restTimes) / (restTimes || 1))
+  return Array.from({ length: restTimes * 2 }, (_, idx) =>
+    idx % 2 === 0 ? workTime : restValue.value
+  )
 })
 const timeIdx = ref(0)
 
@@ -94,6 +98,12 @@ const tips2 = computed(() => {
 // 导航栏点击返回
 const onClickLeft = () => history.back()
 
+const playSound = () => {
+  const audio = audioRef.value
+  audio.currentTime = 0 // 重置播放位置
+  audio.play()
+}
+
 // 开始计时
 const startCountDown = () => {
   step.value = 2
@@ -111,6 +121,7 @@ const recoverCountDown = () => {
 }
 // 下一个计时
 const nextCountDown = () => {
+  playSound()
   if (timeArr.value[timeIdx.value + 1]) {
     timeIdx.value += 1
     countDown.value.reset()
