@@ -44,8 +44,8 @@ dbInstall.install()
 const app = createApp(App)
 
 // vconsole
-const vConsole = new VConsole()
-app.use(vConsole)
+// const vConsole = new VConsole()
+// app.use(vConsole)
 
 app.use(createPinia())
 app.use(router)
