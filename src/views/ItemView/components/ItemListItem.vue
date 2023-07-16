@@ -13,8 +13,8 @@
         />
         <div class="title ellipsis2">{{ item.name }}</div>
       </div>
-      <div class="flexJustifyEnd" style="flex: 0 0 160px">
-        <div class="yjTime" style="margin-right: 8px">
+      <div class="flexColumnEnd" style="flex: 0 0 115px">
+        <div class="yjTime">
           <span class="label">预计:</span
           ><span class="text blue bold">{{ item.expectedHours }}h</span>
         </div>
@@ -133,10 +133,8 @@ function getTime() {
       color: #222222;
     }
     .yjTime {
-      margin-right: 8px;
     }
     .sjTime {
-      margin-right: 8px;
     }
     .timeRange {
     }
