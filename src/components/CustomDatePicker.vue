@@ -111,7 +111,7 @@ const handleClickConfirm = () => {
     font-size: 17px;
     position: relative;
     top: -1px;
-    height: 250px;
+    height: 260px;
     overflow-x: hidden;
     z-index: 2;
     width: 100vw;
@@ -145,7 +145,7 @@ const handleClickConfirm = () => {
       .month {
         text-align: center;
         width: 70px;
-        padding: 8px 10px;
+        padding: 8px 2px;
         margin-right: 5px;
         margin-bottom: 5px;
         @extend .background;

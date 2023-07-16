@@ -22,11 +22,20 @@
     ></custom-date-picker>
     <div class="content flex1Column">
       <div class="list">
-        <long-press @long-press="handleLongPressDiary">
-          <div class="list-item" v-for="item in diaryList" :key="item.id" @click="gotoPage('diaryForm', {...item, type: 2})">
+        <long-press
+          @long-press="handleLongPressDiary(item)"
+          v-for="item in diaryList"
+          :key="item.id"
+        >
+          <div
+            class="list-item"
+            @click="
+              gotoPage('diaryForm', { type: 2, title: item.title, item: JSON.stringify(item) })
+            "
+          >
             <div class="title-time">
-              <div class="title">{{ item.title }}</div>
-              <div class="time">{{ item.date }}</div>
+              <div class="title ellipsis">{{ item.title }}</div>
+              <div class="time" style="flex: 0 0 100px">{{ item.date }}</div>
             </div>
             <div class="description ellipsis2">{{ item.content }}</div>
           </div>
@@ -55,11 +64,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { showToast } from 'vant'
-import { eventBus, formatDate } from '@/utils'
+import { showConfirmDialog, showToast } from 'vant'
+import { eventBus, formatDate, objectToQueryString } from '@/utils'
 import CustomDatePicker from '@/components/CustomDatePicker.vue'
 import OverlayBtnPanel from '@/components/OverlayBtnPanel.vue'
 import LongPress from '@/components/LongPress.vue'
+import diaryService from '../../service/diaryService'
 const router = useRouter()
 
 // 日期过滤
@@ -70,7 +80,7 @@ const showDatePicker = ref(false)
 const diaryList = ref([
   // {
   //   id: 1,
-  //   title: '开心',
+  //   title: '开心开心开心开心开心开心开心开心',
   //   content:
   //     '吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿吃饭有味儿',
   //   date: '2023-07-07'
@@ -79,30 +89,45 @@ const diaryList = ref([
 ])
 
 // 列表项操作
-const showOverlay = ref(false)
 const overlayOptions = ref([])
+const showOverlay = ref(false)
+const showOverlayData = ref()
 
 // 长按触发菜单
-const handleLongPressDiary = () => {
+const handleLongPressDiary = (item) => {
   overlayOptions.value = [
     { text: '修改', value: 'diaryEdit' },
     { text: '删除', value: 'diaryDel' }
   ]
+  showOverlayData.value = item
   showOverlay.value = true
 }
 
 // 点击遮罩按钮面板选项
-const handleClickOption = (action) => {
-  console.log(action.text)
+const handleClickOption = (action, params?) => {
+  console.log(action.value)
   switch (action.value) {
     case 'diaryAdd':
       gotoPage('diaryForm', { type: 1, title: '添加分享' })
       break
     case 'diaryEdit':
-      gotoPage('diaryForm', { type: 1, title: 'TODO' })
+      gotoPage('diaryForm', {
+        type: 1,
+        title: showOverlayData.value?.title || '-',
+        item: JSON.stringify(showOverlayData.value)
+      })
       break
     case 'diaryDel':
-      // TODO
+      showConfirmDialog({
+        title: `确认删除${showOverlayData.value.title}吗？`,
+        confirmButtonColor: '#ee0a24'
+      })
+        .then(() => {
+          deleteItem()
+        })
+        .catch(() => {
+          // on cancel
+        })
       break
     case 'diaryView':
       gotoPage('diaryForm', { type: 2, title: 'TODO' })
@@ -113,11 +138,10 @@ const handleClickOption = (action) => {
 }
 
 // 跳转页面
-const gotoPage = (val, item?) => {
+const gotoPage = (val, params?) => {
   switch (val) {
     case 'diaryForm':
-      const { type, title } = item
-      router.push('/diaryForm?type=' + type + '&title=' + title)
+      router.push('/diaryForm' + objectToQueryString(params))
       break
     default:
       break
@@ -133,9 +157,25 @@ const setPickerDate = ({ year, month }) => {
   month !== undefined && (pickerMonth.value = month || '')
 }
 
+// 获取所有日记，按日期降序排列
+const getAllDiarys = async (date?) => {
+  const data = await diaryService.getAllDiaryDataByIndexCursor()
+  diaryList.value = data
+}
+
+// 删除item
+const deleteItem = async () => {
+  const res = await diaryService.deleteDiaryDataByKey(showOverlayData.value.id)
+  if (res) {
+    showToast('删除成功')
+    getAllDiarys()
+  }
+}
+
 onMounted(() => {
   // 隐藏底部标签
   eventBus.emit('hiddenTabbar', true)
+  getAllDiarys()
 })
 
 onUnmounted(() => {

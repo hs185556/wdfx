@@ -46,7 +46,7 @@ const router = createRouter({
     {
       path: '/diaryForm',
       name: 'diaryForm',
-      component: () => import('../views/DiaryView/DiaryForm.vue'),
+      component: () => import('../views/DiaryView/diaryForm.vue'),
       meta: { tabIndex: 0 }
     },
     {

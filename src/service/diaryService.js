@@ -27,16 +27,11 @@ const deleteDiaryDataByKey = (key) => {
 
 // 查询所有日记，可根据月份
 const getAllDiaryDataByIndexCursor = (dateRange) => {
-  let query;
+  let query
   if (Array.isArray(dateRange) && dateRange.length === 2) {
     query = window.IDBKeyRange.bound(dateRange[0], dateRange[1])
   }
-  return getAllDataByIndexCursor(
-    dbInstall._db,
-    'diaryMeta',
-    'date',
-    query,
-  )
+  return getAllDataByIndexCursor(dbInstall._db, 'diaryMeta', 'date', query, 'prev')
 }
 
 export default {

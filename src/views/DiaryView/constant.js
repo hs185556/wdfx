@@ -5,10 +5,11 @@
 export const DIARYFIELDS = [
   {
     vanFieldProps: {
-      label: '分享标题',
+      label: '标题',
       name: 'title',
-      placeholder: '请输入分享标题',
-      required: true
+      placeholder: '请输入标题',
+      required: true,
+      rules: [{ required: true, message: '请填写标题' }]
     }
   },
   {
@@ -18,20 +19,24 @@ export const DIARYFIELDS = [
       'input-align': 'left',
       label: '内容',
       name: 'content',
-      placeholder: '请输入分享内容',
+      placeholder: '请输入内容',
       type: 'textarea',
       rows: 5,
       maxlength: '500',
-      'show-word-limit': true
+      'show-word-limit': true,
+      required: true,
+      rules: [{ required: true, message: '请填写内容' }]
     }
   },
   {
     vanFieldProps: {
       label: '日期',
-      name: 'startTime',
+      name: 'date',
       placeholder: '请选择日期',
       required: true,
-      type: 'date'
+      type: 'date',
+      required: true,
+      rules: [{ required: true, message: '请填写日期' }]
     }
   }
 ]
