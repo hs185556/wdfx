@@ -204,7 +204,7 @@ function releaseWakeLock() {
 onActivated(() => {
   // 隐藏底部标签
   eventBus.emit('hiddenTabbar', true)
-  wakeLock()
+  // wakeLock()
 })
 
 onDeactivated(() => {
