@@ -150,7 +150,7 @@ const onClickLeft = () => history.back()
 // 获取所有事件
 const getAllDesires = async (date?) => {
   const data = await desireService.getAllDesireDataByIndexCursor()
-  desireList.value = data
+  desireList.value = data.sort((a, b) => a.title.localeCompare(b.title, "zh-Hans-CN"));
 }
 
 // 删除item
