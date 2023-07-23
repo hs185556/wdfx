@@ -1,6 +1,6 @@
 export default {
   dbName: 'project-meta-db', // 数据库名称
-  version: 1,
+  version: 2,
   stores: {
     // 数据库里的表（对象仓库）
     focusMeta: {
@@ -23,7 +23,7 @@ export default {
         parentId: false,
         type: false,
         date: false,
-        status: false,
+        status: false
       },
       isClear: false
     },
@@ -34,5 +34,12 @@ export default {
       },
       isClear: false
     },
+    desireMeta: {
+      id: 'id',
+      index: {
+        title: true
+      },
+      isClear: false
+    }
   }
 }

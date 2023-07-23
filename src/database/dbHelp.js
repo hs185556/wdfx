@@ -20,6 +20,7 @@ export function addData(db, storeName, data) {
 
     request.onerror = function (event) {
       console.log('数据写入失败', event.target.error)
+      resolve(event.target.error)
     }
   })
 }
@@ -79,8 +80,11 @@ export function getDataByIndex(db, storeName, indexName, indexValue) {
 export function getAllDataByIndexQuery(db, storeName, index, query) {
   return new Promise((resolve, reject) => {
     var store = db.transaction(storeName, 'readwrite').objectStore(storeName)
-    var indexStore = store.index(index)
-    var request = indexStore.getAll(query)
+    var indexStore
+    if (index) {
+      indexStore = store.index(index)
+    }
+    var request = (indexStore || store).getAll(query)
     request.onerror = function () {
       console.log('事务失败')
     }
@@ -170,46 +174,47 @@ export function updateData(db, storeName, data) {
  * @param {string} storeName 仓库名称
  * @param {number|number[]} id 主键值或主键值列表
  */
- export function deleteDataByKey(db, storeName, id) {
+export function deleteDataByKey(db, storeName, id) {
   return new Promise((resolve) => {
-    const transaction = db.transaction([storeName], 'readwrite');
-    const objectStore = transaction.objectStore(storeName);
+    const transaction = db.transaction([storeName], 'readwrite')
+    const objectStore = transaction.objectStore(storeName)
 
     // 如果 id 是数组，则遍历数组并删除每个 ID 对应的记录
     if (Array.isArray(id)) {
       const promises = id.map((key) => {
         return new Promise((resolve) => {
-          const request = objectStore.delete(key);
+          const request = objectStore.delete(key)
           request.onsuccess = () => {
-            console.log(`已删除 id 为 ${key} 的记录`);
-            resolve(true);
-          };
+            console.log(`已删除 id 为 ${key} 的记录`)
+            resolve(true)
+          }
           request.onerror = (event) => {
-            console.log(`删除 id 为 ${key} 的记录失败`, event.target.error);
-            resolve(false);
-          };
-        });
-      });
+            console.log(`删除 id 为 ${key} 的记录失败`, event.target.error)
+            resolve(false)
+          }
+        })
+      })
 
       Promise.all(promises).then((results) => {
         if (results.every((result) => result)) {
-          console.log(`已删除 ${id.length} 条记录`);
-          resolve(true);
+          console.log(`已删除 ${id.length} 条记录`)
+          resolve(true)
         } else {
-          console.log('删除记录失败');
-          resolve(true);
+          console.log('删除记录失败')
+          resolve(true)
         }
-      });
-    } else { // 如果 id 是单个值，则直接删除对应的记录
-      const request = objectStore.delete(id);
+      })
+    } else {
+      // 如果 id 是单个值，则直接删除对应的记录
+      const request = objectStore.delete(id)
       request.onsuccess = () => {
-        console.log(`已删除 id 为 ${id} 的记录`);
-        resolve(true);
-      };
+        console.log(`已删除 id 为 ${id} 的记录`)
+        resolve(true)
+      }
       request.onerror = (event) => {
-        console.log(`删除 id 为 ${id} 的记录失败`, event.target.error);
-        resolve(false);
-      };
+        console.log(`删除 id 为 ${id} 的记录失败`, event.target.error)
+        resolve(false)
+      }
     }
-  });
+  })
 }

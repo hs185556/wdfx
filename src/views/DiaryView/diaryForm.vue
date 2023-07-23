@@ -25,6 +25,16 @@
               </template>
             </van-field>
           </template>
+          <van-field
+            v-model="formData.step"
+            autosize
+            label="步骤"
+            :rows="5"
+            :maxlength="500"
+            show-word-limit
+            type="textarea"
+          >
+          </van-field>
         </van-cell-group>
         <div style="margin: 16px" v-if="propType !== 2">
           <van-button block type="primary" native-type="submit"> 提交 </van-button>

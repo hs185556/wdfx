@@ -14,14 +14,14 @@ export const DIARYFIELDS = [
   },
   {
     vanFieldProps: {
-      autosize: true,
+      // autosize: true,
       'label-align': 'top',
       'input-align': 'left',
       label: '内容',
       name: 'content',
       placeholder: '请输入内容',
       type: 'textarea',
-      rows: 5,
+      rows: 10,
       maxlength: '500',
       'show-word-limit': true,
       required: true,

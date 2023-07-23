@@ -50,6 +50,12 @@ const router = createRouter({
       meta: { tabIndex: 0 }
     },
     {
+      path: '/desire',
+      name: 'desire',
+      component: () => import('../views/DesireView/index.vue'),
+      meta: { tabIndex: 0 }
+    },
+    {
       path: '/data',
       name: 'data',
       component: DataView,
