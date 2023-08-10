@@ -12,10 +12,10 @@
       <van-icon name="smile-comment" />
       <span>今日分享</span>
     </div>
-    <div class="grid-item" @click="gotoPage('desire')">
+    <!-- <div class="grid-item" @click="gotoPage('desire')">
       <van-icon name="service" />
       <span>事件集</span>
-    </div>
+    </div> -->
   </div>
 </template>
 
