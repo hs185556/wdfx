@@ -139,7 +139,7 @@ const gotoPage = (val, params?) => {
   switch (val) {
     case 'itemForm':
       router.replace('/itemForm' + objectToQueryString(params))
-      eventBus.emit("refreshPage")
+      eventBus.emit('refreshPage')
       break
     default:
       break
@@ -237,13 +237,16 @@ const onSubmit = (val) => {
       // 设置为已完成和未完成 type:3 updateTime status: 0 || 1 || 2
       if (propItem && propItem.id) {
         let updateTime = formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss')
+        // 更新日期超过截止日期，或者实际用时超过预计用时，即为延期
         let status =
           propItem.status === 0
-            ? propItem.stopTime &&
-              formatDate(new Date(propItem.stopTime), 'YYYY-MM-DD HH:mm:ss') < updateTime
+            ? (propItem.stopTime &&
+                formatDate(new Date(propItem.stopTime), 'YYYY-MM-DD HH:mm:ss') < updateTime) ||
+              formData.actualHours > propItem.expectedHours
               ? 2
               : 1
             : 0
+          debugger;
         editItem({
           ...propItem,
           ...val,
