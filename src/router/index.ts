@@ -59,7 +59,10 @@ const router = createRouter({
       path: '/data',
       name: 'data',
       component: DataView,
-      meta: { tabIndex: 1 }
+      meta: {
+        keepAlive: true, // 需要缓存 // WHY??????????? 非要keep-alive，themeNavBar就不能正常工作
+        tabIndex: 1
+      }
     },
     {
       path: '/mine',

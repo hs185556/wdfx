@@ -175,7 +175,9 @@ onMounted(() => {
 
 onActivated(() => {
   // 重新获取数据并刷新页面
-  getAllThemes()
+  setTimeout(() => {
+    getAllThemes()
+  }, 100)
 })
 </script>
 

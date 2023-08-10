@@ -246,7 +246,6 @@ const onSubmit = (val) => {
               ? 2
               : 1
             : 0
-          debugger;
         editItem({
           ...propItem,
           ...val,

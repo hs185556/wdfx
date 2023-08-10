@@ -45,7 +45,7 @@ export const formatDate = (date, str) => {
     .replace('HH', HH)
     .replace('mm', mm)
     .replace('ss', ss)
-  console.log(formattedDate) // 输出格式化后的日期
+  // console.log(formattedDate) // 输出格式化后的日期
   return formattedDate
 }
 

@@ -128,7 +128,7 @@ const getAllItemsBytheme = async (id, date) => {
   return categorys.sort(compare).concat(items.sort(compare))
 }
 
-// 根据主题和时间查询统计数据
+// 根据主题和时间查询统计数据 日期必传
 const getItemStatistics = async (id, date) => {
   const { type } = getDateRange(date)
   if (type === 0) return
@@ -155,7 +155,7 @@ const getItemStatistics = async (id, date) => {
       1: 0,
       2: 0
     }))
-  const dateStatusOverview = list.map((v) => ({ ...v, 0: 0, 1: 0, 2: 0 }))
+  // const dateStatusOverview = list.map((v) => ({ ...v, 0: 0, 1: 0, 2: 0 }))
 
   records.forEach((record) => {
     if (record.type !== 3) return
@@ -164,8 +164,8 @@ const getItemStatistics = async (id, date) => {
 
     if (record.status !== 0) {
       // 跳过未完成
-      costTimeOverview.expectedHours += record.expectedHours || 0
-      costTimeOverview.actualHours += record.actualHours || 0
+      costTimeOverview.expectedHours += Number(record.expectedHours) || 0
+      costTimeOverview.actualHours += Number(record.actualHours) || 0
     }
 
     const category = categoryOverview.find((x) => x.id === record.parentId)
@@ -173,16 +173,16 @@ const getItemStatistics = async (id, date) => {
       category[record.status] !== undefined && (category[record.status] += 1)
     }
 
-    dateStatusOverview[
+    /* dateStatusOverview[
       type === 1 ? new Date(record.date).getMonth() : new Date(record.date).getDate() - 1
-    ][record.status] += 1
+    ][record.status] += 1 */
   })
 
   return {
     statusOverview, // 状态总览
     costTimeOverview, // 时间总览
     categoryOverview, // 分类状态
-    dateStatusOverview // 日期状态
+    // dateStatusOverview // 日期状态
   }
 }
 
