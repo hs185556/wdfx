@@ -178,10 +178,13 @@ const getItemStatistics = async (id, date) => {
     ][record.status] += 1 */
   })
 
+  costTimeOverview.expectedHours = costTimeOverview.expectedHours.toFixed(2)
+  costTimeOverview.actualHours = costTimeOverview.actualHours.toFixed(2)
+
   return {
     statusOverview, // 状态总览
     costTimeOverview, // 时间总览
-    categoryOverview, // 分类状态
+    categoryOverview // 分类状态
     // dateStatusOverview // 日期状态
   }
 }

@@ -71,7 +71,7 @@ const statsData = ref()
 const chartData = ref([])
 
 // 日期过滤
-const pickerDate = ref(formatDate(new Date(), 'YYYY-MM'))
+const pickerDate = ref(formatDate(new Date(), 'YYYY'))
 const showDatePicker = ref(false)
 
 // 设置日期
